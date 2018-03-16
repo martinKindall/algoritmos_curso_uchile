@@ -40,16 +40,26 @@ public class Main {
 		Stream<Integer> infiniteStream = Stream.iterate(0, i -> i + 1);
 		infiniteStream.limit(3).forEach(i -> System.out.println(i));
 
-		Scanner scanner = new Scanner(System.in);
+		Scanner intScanner = new Scanner(System.in);
 
-		// System.out.println("n?");
-		// int nroFrac = scanner.nextInt();
+		System.out.println("n?");
+		int nroFrac = intScanner.nextInt();
 
-		Stream<String> inputs = Stream.iterate(scanner.nextLine(), i -> scanner.nextLine());
-		Fraccion total = inputs.limit(2).map(i -> new Fraccion(i)).reduce(new Fraccion("0/1"), (x, y) -> x.suma(y));
+		Stream<String> inputs = Stream.iterate(printAndScanLine("Fraccion ?"), i -> printAndScanLine("Fraccion ?"));
 
-		System.out.println(total);
+		Fraccion total = inputs
+			.limit(nroFrac)
+			.map(i -> new Fraccion(i))
+			.reduce(new Fraccion("0/1"), (x, y) -> x.suma(y));
+
+		System.out.println("La suma total es: "+total);
 	}
 
+	public static String printAndScanLine(String message)
+	{
+		Scanner stringScanner = new Scanner(System.in);
 
+		System.out.println(message);
+		return stringScanner.nextLine();
+	}
 }
