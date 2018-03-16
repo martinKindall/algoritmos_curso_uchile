@@ -42,4 +42,9 @@ public class Fraccion {
 
 		return result;
 	}
+
+	public String toString()
+	{
+		return this.num + "/" + this.den;
+	}
 }
