@@ -2,6 +2,7 @@ package aux1;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 public class Main {
 
@@ -43,5 +44,11 @@ public class Main {
 		// 
 		// evaluar el stream en el numero de fracciones elegido por el usuario
 		// y hacerle reduce?
+		
+		Stream<Integer> infiniteStream = Stream.iterate(0, i -> i + 1);
+
+		infiniteStream.limit(10).forEach(i -> System.out.println(i));
 	}
+
+
 }
