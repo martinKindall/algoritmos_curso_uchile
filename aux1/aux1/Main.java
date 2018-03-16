@@ -12,8 +12,18 @@ public class Main {
 		Scanner scanner = new Scanner(System.in);
 
 		System.out.println("n?");
-		int nroFracciones = scanner.nextInt();
+		int nroFrac = scanner.nextInt();
+		Fraccion total = new Fraccion("0/1");
 
-		System.out.println("Fraccion 1?");
+		for (int i=0; i<nroFrac; ++i) 
+		{
+			scanner = new Scanner(System.in);
+			System.out.println("Fraccion "+(i+1)+"?");
+			Fraccion actual = new Fraccion(scanner.nextLine());
+
+			total = total.suma(actual);
+		}
+
+		System.out.println("La suma total es: "+total);
 	}
 }
