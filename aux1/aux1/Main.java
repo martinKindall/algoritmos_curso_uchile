@@ -2,9 +2,12 @@ package aux1;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Main {
+
+	static int globalIndex = 0;
 
 	public static void main(String[] args) {
 		// main1();
@@ -45,7 +48,7 @@ public class Main {
 		System.out.println("n?");
 		int nroFrac = intScanner.nextInt();
 
-		Stream<String> inputs = Stream.iterate(printAndScanLine("Fraccion ?"), i -> printAndScanLine("Fraccion ?"));
+		Stream<String> inputs = Stream.iterate(printAndScanLine("Fraccion "+index()+"?"), i -> printAndScanLine("Fraccion "+index()+"?"));
 
 		Fraccion total = inputs
 			.limit(nroFrac)
@@ -61,5 +64,11 @@ public class Main {
 
 		System.out.println(message);
 		return stringScanner.nextLine();
+	}
+
+	public static int index()
+	{
+		globalIndex += 1;
+		return globalIndex;
 	}
 }
