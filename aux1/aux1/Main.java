@@ -37,21 +37,18 @@ public class Main {
 
 	public static void main2()
 	{
-		// crear funcion que cree stream de inputs
-		// 
-		// usar un reduce de streams que transforme cada elemento
-		// del stream a una fraccion y las sume
-		// 
-		// evaluar el stream en el numero de fracciones elegido por el usuario
-		// y hacerle reduce?
-		
 		Stream<Integer> infiniteStream = Stream.iterate(0, i -> i + 1);
 		infiniteStream.limit(3).forEach(i -> System.out.println(i));
 
 		Scanner scanner = new Scanner(System.in);
 
+		// System.out.println("n?");
+		// int nroFrac = scanner.nextInt();
+
 		Stream<String> inputs = Stream.iterate(scanner.nextLine(), i -> scanner.nextLine());
-		inputs.limit(3).forEach(i -> System.out.println(i));
+		Fraccion total = inputs.limit(2).map(i -> new Fraccion(i)).reduce(new Fraccion("0/1"), (x, y) -> x.suma(y));
+
+		System.out.println(total);
 	}
 
 
