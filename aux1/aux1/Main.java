@@ -37,8 +37,8 @@ public class Main {
 
 	public static void main2()
 	{
-		Stream<Integer> infiniteStream = Stream.iterate(0, i -> i + 1);
-		infiniteStream.limit(3).forEach(i -> System.out.println(i));
+		// Stream<Integer> infiniteStream = Stream.iterate(0, i -> i + 1);
+		// infiniteStream.limit(3).forEach(i -> System.out.println(i));
 
 		Scanner intScanner = new Scanner(System.in);
 
