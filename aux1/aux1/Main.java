@@ -46,8 +46,12 @@ public class Main {
 		// y hacerle reduce?
 		
 		Stream<Integer> infiniteStream = Stream.iterate(0, i -> i + 1);
+		infiniteStream.limit(3).forEach(i -> System.out.println(i));
 
-		infiniteStream.limit(10).forEach(i -> System.out.println(i));
+		Scanner scanner = new Scanner(System.in);
+
+		Stream<String> inputs = Stream.iterate(scanner.nextLine(), i -> scanner.nextLine());
+		inputs.limit(3).forEach(i -> System.out.println(i));
 	}
 
 
