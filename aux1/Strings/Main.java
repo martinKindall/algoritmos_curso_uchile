@@ -9,6 +9,8 @@ public class Main {
 		
 		testInvertirPalabra();
 		testEsPalindrome();
+
+		testOracionPalindrome();
 	}
 
 	public static boolean esRotacionCicular(String r, String w)
@@ -45,6 +47,15 @@ public class Main {
 		return invertida;
 	}
 
+	public static boolean oracionPalindrome(String s)
+	{
+		String oracionSinEspacios = s.replace(" ", "");
+
+		return palabraEsPalindrome(oracionSinEspacios);
+	}
+
+	/* tests */
+
 	public static void testRotacionCircular()
 	{
 		String word_1 = "algoritmo";
@@ -80,5 +91,17 @@ public class Main {
 		{
 			System.out.println("error al invertir palabra");
 		}
+	}
+
+	public static void testOracionPalindrome()
+	{
+		System.out.println("");
+		System.out.println("oraciones palindromes");
+
+		String orPalindrome_1 = "anita lava la tina";
+		String orPalindrome_2 = "anita lava la tinas";
+
+		System.out.println(oracionPalindrome(orPalindrome_1));
+		System.out.println(oracionPalindrome(orPalindrome_2));
 	}
 }
