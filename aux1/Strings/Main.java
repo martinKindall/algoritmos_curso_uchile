@@ -7,10 +7,13 @@ public class Main {
 	public static void main(String[] args) {
 		// testRotacionCircular();
 		
-		testInvertirPalabra();
-		testEsPalindrome();
+		// testInvertirPalabra();
+		// testEsPalindrome();
 
-		testOracionPalindrome();
+		// testOracionPalindrome();
+
+		testStringContieneCaracteres();
+		testStringCompleto();
 	}
 
 	public static boolean esRotacionCicular(String r, String w)
@@ -52,6 +55,20 @@ public class Main {
 		String oracionSinEspacios = s.replace(" ", "");
 
 		return palabraEsPalindrome(oracionSinEspacios);
+	}
+
+	public static boolean wordContainsCharacters(String s, String characters)
+	{
+		if (s.equals("") || characters.equals("")) return true;
+
+		String first = characters.substring(0,1);
+
+		if (s.contains(first))
+		{
+			return wordContainsCharacters(s.replace(first, ""), characters.substring(1,characters.length()));
+		}
+
+		return false;
 	}
 
 	/* tests */
@@ -103,5 +120,30 @@ public class Main {
 
 		System.out.println(oracionPalindrome(orPalindrome_1));
 		System.out.println(oracionPalindrome(orPalindrome_2));
+	}
+
+	public static void testStringContieneCaracteres()
+	{
+		String palabra = "qwasdferqewrqeasdfrqerzxcvqerqwr";
+		String chars = "qwer";
+
+		System.out.println(wordContainsCharacters(palabra, chars));
+	}
+
+	public static void testStringCompleto()
+	{
+		String word_1 = "esta oracion no contiene el abecedario";
+		String stringCompleto = "a b c asd e f g h i tyiuj k l , m n o zcxvp q r s t u v wfdg x y z.p{}{";
+		String chars = "abcdefghijklmnopqrstuvwxyz";
+
+		if (wordContainsCharacters(word_1, chars))
+		{
+			System.out.println("Error en el string completo test1");
+		}
+
+		if (!wordContainsCharacters(stringCompleto, chars))
+		{
+			System.out.println("Error en el string completo test2");
+		}
 	}
 }
