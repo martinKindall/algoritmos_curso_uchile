@@ -12,6 +12,9 @@ public class PilaArena {
 		Ventana ventana = new Ventana(800, "Pila de arena");
 
 		int[][] tablero = new int[ladoTablero][ladoTablero];
+
+		moverArena(tablero, ladoTablero, nGranos);
+		ventana.mostrarMatriz(tablero);
 	}
 
 	public static int ingresarN()
@@ -47,5 +50,44 @@ public class PilaArena {
 		int lado = (int)Math.sqrt(granos);
 
 		return lado % 2 == 0 ? lado+1 : lado;
+	}
+
+	/**
+	 * [moverArena: simula los derrumbes de una cantidad nGranos en una celda determinada por el indice puntoInicial]
+	 * efecto -> modifica el arreglo tablero segun las reglas de derrumbes de arena
+	 * @param tablero      
+	 * @param puntoInicial
+	 * @param nGranos     
+	 */
+	public static void moverArena(int[][] tablero, int ladoTablero, int nGranos)
+	{
+		int indiceCentro = --ladoTablero / 2;
+
+		tablero[indiceCentro][indiceCentro] = nGranos;
+
+		for (int i=0; i<ladoTablero; ++i) 
+		{
+			for (int j=0; j<ladoTablero; ++j) 
+			{
+				if (tablero[i][j] > 3)
+				{
+					tablero[i][j] -= 4;	
+					tablero[i+1][j] += 1;	
+					tablero[i][j+1] += 1;	
+					tablero[i-1][j] += 1;	
+					tablero[i][j-1] += 1;	
+
+					// estos ajustes son para ver si el derrumbe causo mas derrumbes,
+					// y volver a chequear las 4 celdas afectadas
+					// partiendo por la de arriba de la cruz
+					i -= 1;
+					j -= 1;
+
+					// Aca conviene mejor hacer una llamada recursiva para mover arena
+					// a una porcion menor del tablero, con un lado reducido por ejemplo, 
+					// de manera que los derrumbes sean revisados de manera local y no tengan que hacer revisar filas completas
+				}
+			}	
+		}
 	}
 }
