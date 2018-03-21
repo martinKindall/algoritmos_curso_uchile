@@ -65,29 +65,30 @@ public class PilaArena {
 
 		tablero[indiceCentro][indiceCentro] = nGranos;
 
-		for (int i=0; i<ladoTablero; ++i) 
+		checkDerrumbeRecursivo(tablero, indiceCentro, indiceCentro);
+	}
+
+	/**
+	 * [checkDerrumbeRecursivo: funciona para N muy bajo]
+	 * @param tablero 
+	 * @param i       
+	 * @param j       
+	 */
+	public static void checkDerrumbeRecursivo(int[][] tablero, int i, int j)
+	{
+		if (tablero[i][j] > 3)
 		{
-			for (int j=0; j<ladoTablero; ++j) 
-			{
-				if (tablero[i][j] > 3)
-				{
-					tablero[i][j] -= 4;	
-					tablero[i+1][j] += 1;	
-					tablero[i][j+1] += 1;	
-					tablero[i-1][j] += 1;	
-					tablero[i][j-1] += 1;	
+			tablero[i][j] -= 4;	
+			tablero[i+1][j] += 1;	
+			tablero[i][j+1] += 1;	
+			tablero[i-1][j] += 1;	
+			tablero[i][j-1] += 1;
 
-					// estos ajustes son para ver si el derrumbe causo mas derrumbes,
-					// y volver a chequear las 4 celdas afectadas
-					// partiendo por la de arriba de la cruz
-					i -= 1;
-					j -= 1;
-
-					// Aca conviene mejor hacer una llamada recursiva para mover arena
-					// a una porcion menor del tablero, con un lado reducido por ejemplo, 
-					// de manera que los derrumbes sean revisados de manera local y no tengan que hacer revisar filas completas
-				}
-			}	
+			checkDerrumbeRecursivo(tablero, i, j);
+			checkDerrumbeRecursivo(tablero, i+1, j);
+			checkDerrumbeRecursivo(tablero, i, j+1);
+			checkDerrumbeRecursivo(tablero, i-1, j);
+			checkDerrumbeRecursivo(tablero, i, j-1);
 		}
 	}
 }
