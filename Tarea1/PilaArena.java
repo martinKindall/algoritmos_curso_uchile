@@ -2,13 +2,15 @@ import java.util.Scanner;
 
 public class PilaArena 
 {
+	final static boolean mejorado = true;
+
 	public static void main(String[] args) 
 	{
 		pilaTest();
 
 		Pila pilaArena = new Pila(ingresarN());
 
-		pilaArena.moverArena();
+		pilaArena.moverArena(mejorado);
 		pilaArena.mostrar();
 	}
 
@@ -26,7 +28,7 @@ public class PilaArena
 	public static void pilaTest()
 	{
 		Pila pilaArena = new Pila(5);
-		pilaArena.moverArena();
+		pilaArena.moverArena(mejorado);
 
 		int[][] tableroFinal = new int[3][3];
 		tableroFinal[0][1] = 1;
@@ -62,8 +64,8 @@ class Pila
 
 	/**
 	 * [estimarTableroSegunNGranos: estima el lado del tablero cuadrado para que quepan todos los granos de arena]
-	 * @param  nGranos [int]
-	 * @return        [int]
+	 * @param  nGranos 
+	 * @return int       
 	 */
 	private static int estimarTableroSegunNGranos(int nGranos)
 	{
@@ -74,9 +76,10 @@ class Pila
 
 	/**
 	 * [moverArena: simula los derrumbes de una cantidad nGranos en una celda determinada por el indice puntoInicial]
-	 * efecto -> modifica el arreglo tablero segun las reglas de derrumbes de arena
+	 * efecto -> modifica el arreglo tablero segun las reglas de derrumbes de arena]
+	 * @param mejorado
 	 */
-	public void moverArena()
+	public void moverArena(boolean mejorado)
 	{
 		int indiceCentro = --this.ladoTablero / 2;
 
@@ -92,11 +95,13 @@ class Pila
 				{
 					this.nroVeces += 1;
 
-					this.tablero[i][j] -= 4;	
-					this.tablero[i+1][j] += 1;	
-					this.tablero[i][j+1] += 1;	
-					this.tablero[i-1][j] += 1;	
-					this.tablero[i][j-1] += 1;	
+					int montoResta = mejorado ? this.tablero[i][j]/4 : 1;
+
+					this.tablero[i][j] -= montoResta * 4;	
+					this.tablero[i+1][j] += montoResta;	
+					this.tablero[i][j+1] += montoResta;	
+					this.tablero[i-1][j] += montoResta;	
+					this.tablero[i][j-1] += montoResta;	
 
 					// estos ajustes son para ver si el derrumbe causo mas derrumbes,
 					// y volver a chequear las 4 celdas afectadas
