@@ -40,78 +40,91 @@ public class PilaArena {
 		ventana.mostrarMatriz(tablero);
 	}
 
-	/**
-	 * [estimarTableroSegunNGranos: estima el lado del tablero cuadrado para que quepan todos los granos de arena]
-	 * @param  granos [int]
-	 * @return        [int]
-	 */
-	public static int estimarTableroSegunNGranos(int granos)
+		
+	class Pila
 	{
-		int lado = (int)Math.sqrt(granos);
+		int nroVeces = 0;
+		int lado;
+		int[][] tablero;
 
-		return lado % 2 == 0 ? lado+1 : lado;
-	}
-
-	/**
-	 * [moverArena: simula los derrumbes de una cantidad nGranos en una celda determinada por el indice puntoInicial]
-	 * efecto -> modifica el arreglo tablero segun las reglas de derrumbes de arena
-	 * @param tablero      
-	 * @param puntoInicial
-	 * @param nGranos     
-	 */
-	public static void moverArena(int[][] tablero, int ladoTablero, int nGranos)
-	{
-		int indiceCentro = --ladoTablero / 2;
-
-		tablero[indiceCentro][indiceCentro] = nGranos;
-
-		for (int i=0; i<ladoTablero; ++i) 
+		public Pila(int nGranos)
 		{
-			for (int j=0; j<ladoTablero; ++j) 
-			{
-				if (tablero[i][j] > 3)
-				{
-					tablero[i][j] -= 4;	
-					tablero[i+1][j] += 1;	
-					tablero[i][j+1] += 1;	
-					tablero[i-1][j] += 1;	
-					tablero[i][j-1] += 1;	
-
-					// estos ajustes son para ver si el derrumbe causo mas derrumbes,
-					// y volver a chequear las 4 celdas afectadas
-					// partiendo por la de arriba de la cruz
-					i -= 1;
-					j -= 1;
-
-					// Aca conviene mejor hacer una llamada recursiva para mover arena
-					// a una porcion menor del tablero, con un lado reducido por ejemplo, 
-					// de manera que los derrumbes sean revisados de manera local y no tengan que hacer revisar filas completas
-				}
-			}	
+			this.nGranos = nGranos;
+			this.lado = estimarTableroSegunNGranos(nGranos);
+			this.tablero = new int[this.lado][this.lado];
 		}
-	}
 
-	/**
-	 * [checkDerrumbeRecursivo: funciona para N muy bajo]
-	 * @param tablero 
-	 * @param i       
-	 * @param j       
-	 */
-	public static void checkDerrumbeRecursivo(int[][] tablero, int i, int j)
-	{
-		if (tablero[i][j] > 3)
+
+		/**
+		 * [estimarTableroSegunNGranos: estima el lado del tablero cuadrado para que quepan todos los granos de arena]
+		 * @param  nGranos [int]
+		 * @return        [int]
+		 */
+		private static int estimarTableroSegunNGranos(int nGranos)
 		{
-			tablero[i][j] -= 4;	
-			tablero[i+1][j] += 1;	
-			tablero[i][j+1] += 1;	
-			tablero[i-1][j] += 1;	
-			tablero[i][j-1] += 1;
+			int lado = (int)Math.sqrt(nGranos);
 
-			checkDerrumbeRecursivo(tablero, i, j);
-			checkDerrumbeRecursivo(tablero, i+1, j);
-			checkDerrumbeRecursivo(tablero, i, j+1);
-			checkDerrumbeRecursivo(tablero, i-1, j);
-			checkDerrumbeRecursivo(tablero, i, j-1);
+			return lado % 2 == 0 ? lado+1 : lado;
+		}
+
+		/**
+		 * [moverArena: simula los derrumbes de una cantidad nGranos en una celda determinada por el indice puntoInicial]
+		 * efecto -> modifica el arreglo tablero segun las reglas de derrumbes de arena
+		 */
+		private void moverArena()
+		{
+			int indiceCentro = --this.ladoTablero / 2;
+
+			this.tablero[indiceCentro][indiceCentro] = this.nGranos;
+
+			for (int i=0; i<this.ladoTablero; ++i) 
+			{
+				for (int j=0; j<this.ladoTablero; ++j) 
+				{
+					if (this.tablero[i][j] > 3)
+					{
+						this.tablero[i][j] -= 4;	
+						this.tablero[i+1][j] += 1;	
+						this.tablero[i][j+1] += 1;	
+						this.tablero[i-1][j] += 1;	
+						this.tablero[i][j-1] += 1;	
+
+						// estos ajustes son para ver si el derrumbe causo mas derrumbes,
+						// y volver a chequear las 4 celdas afectadas
+						// partiendo por la de arriba de la cruz
+						i -= 1;
+						j -= 1;
+
+						// Aca conviene mejor hacer una llamada recursiva para mover arena
+						// a una porcion menor del tablero, con un lado reducido por ejemplo, 
+						// de manera que los derrumbes sean revisados de manera local y no tengan que hacer revisar filas completas
+					}
+				}	
+			}
+		}
+
+		/**
+		 * [recMoverArena: funciona para N muy bajo, de forma recursiva]
+		 * efecto -> ordena el arena de acuerdo a la regla de derrumbes
+		 * @param i       
+		 * @param j       
+		 */
+		private void recMoverArena(int i, int j)
+		{
+			if (this.tablero[i][j] > 3)
+			{
+				this.tablero[i][j] -= 4;	
+				this.tablero[i+1][j] += 1;	
+				this.tablero[i][j+1] += 1;	
+				this.tablero[i-1][j] += 1;	
+				this.tablero[i][j-1] += 1;
+
+				this.recMoverArena(i, j);
+				this.recMoverArena(i+1, j);
+				this.recMoverArena(i, j+1);
+				this.recMoverArena(i-1, j);
+				this.recMoverArena(i, j-1);
+			}
 		}
 	}
 }
