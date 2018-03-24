@@ -4,6 +4,8 @@ public class PilaArena
 {
 	public static void main(String[] args) 
 	{
+		pilaTest();
+
 		Pila pilaArena = new Pila(ingresarN());
 
 		pilaArena.moverArena();
@@ -17,6 +19,29 @@ public class PilaArena
 		int granos = scanner.nextInt();
 
 		return granos;
+	}
+
+	// tests
+	
+	public static void pilaTest()
+	{
+		Pila pilaArena = new Pila(5);
+		pilaArena.moverArena();
+
+		int[][] tableroFinal = new int[3][3];
+		tableroFinal[0][1] = 1;
+		tableroFinal[1][0] = 1;
+		tableroFinal[1][1] = 1;
+		tableroFinal[1][2] = 1;
+		tableroFinal[2][1] = 1;
+
+		for (int idx=0; idx<3; ++idx) 
+		{
+			for (int idy=0; idy<3; ++idy) 
+			{
+				assert pilaArena.tablero[idx][idy] == tableroFinal[idx][idy];	
+			}
+		}
 	}
 }
 
