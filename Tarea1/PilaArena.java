@@ -47,6 +47,7 @@ public class PilaArena
 
 class Pila
 {
+	double comparaciones = 0;
 	int nroVeces = 0;
 	int nGranos;
 	int ladoTablero;
@@ -85,8 +86,12 @@ class Pila
 		{
 			for (int j=0; j<this.ladoTablero; ++j) 
 			{
+				this.comparaciones += 1;
+
 				if (this.tablero[i][j] > 3)
 				{
+					this.nroVeces += 1;
+
 					this.tablero[i][j] -= 4;	
 					this.tablero[i+1][j] += 1;	
 					this.tablero[i][j+1] += 1;	
@@ -98,10 +103,6 @@ class Pila
 					// partiendo por la de arriba de la cruz
 					i -= 1;
 					j -= 1;
-
-					// Aca conviene mejor hacer una llamada recursiva para mover arena
-					// a una porcion menor del tablero, con un lado reducido por ejemplo, 
-					// de manera que los derrumbes sean revisados de manera local y no tengan que hacer revisar filas completas
 				}
 			}	
 		}
@@ -134,6 +135,9 @@ class Pila
 	public void mostrar()
 	{
 		Ventana ventana = new Ventana(800, "Pila de arena");
+
+		System.out.println("Se usó " + this.nroVeces + " veces la logica de derrumbes de arena usando " + this.comparaciones + " comparaciones.");
+
 		ventana.mostrarMatriz(this.tablero);
 	}
 }
