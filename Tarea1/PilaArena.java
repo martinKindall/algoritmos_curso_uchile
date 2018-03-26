@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class PilaArena 
 {
-	final static boolean mejorado = true;
+	final static boolean mejorado = false;
 
 	public static void main(String[] args) 
 	{
@@ -85,14 +85,25 @@ class Pila
 
 		this.tablero[indiceCentro][indiceCentro] = this.nGranos;
 
-		for (int i=0; i<this.ladoTablero; ++i) 
+		int ladoVirtual = 1;
+
+		for (int i=indiceCentro; i<=indiceCentro+ladoVirtual/2; ++i) 
 		{
-			for (int j=0; j<this.ladoTablero; ++j) 
+			for (int j=indiceCentro-ladoVirtual/2; j<=indiceCentro+ladoVirtual/2; ++j) 
 			{
 				this.comparaciones += 1;
 
 				if (this.tablero[i][j] > 3)
 				{
+					// esta optimizacion permite recorrer el arreglo solo en donde hay data (podemos verlo
+					// como un arreglo virtual). A medida que nuestro tablero va 'creciendo' se aumenta el
+					// lado del arreglo que queremos recorrer
+					if (this.ladoTablero > 9 && (
+						i == indiceCentro-ladoVirtual/2))
+					{
+						ladoVirtual += 2;
+					}
+
 					this.nroVeces += 1;
 
 					int montoResta = mejorado ? this.tablero[i][j]/4 : 1;
