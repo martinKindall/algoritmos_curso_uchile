@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class PilaArena 
 {
-	final static boolean mejorado = false;
+	final static boolean mejorado = true;
 
 	public static void main(String[] args) 
 	{
@@ -49,7 +49,7 @@ public class PilaArena
 
 class Pila
 {
-	double comparaciones = 0;
+	double celdasRevisadas = 0;
 	int nroVeces = 0;
 	int nGranos;
 	int ladoTablero;
@@ -86,12 +86,13 @@ class Pila
 		this.tablero[indiceCentro][indiceCentro] = this.nGranos;
 
 		int ladoVirtual = 1;
+		int montoResta;
 
 		for (int i=indiceCentro; i<=indiceCentro+ladoVirtual/2; ++i) 
 		{
-			for (int j=indiceCentro-ladoVirtual/2; j<=indiceCentro+ladoVirtual/2; ++j) 
+			for (int j=indiceCentro-ladoVirtual/2; j<=indiceCentro+ladoVirtual/2;) 
 			{
-				this.comparaciones += 1;
+				this.celdasRevisadas += 1;
 
 				if (this.tablero[i][j] > 3)
 				{
@@ -106,7 +107,7 @@ class Pila
 
 					this.nroVeces += 1;
 
-					int montoResta = mejorado ? this.tablero[i][j]/4 : 1;
+					montoResta = mejorado ? this.tablero[i][j]/4 : 1;
 
 					this.tablero[i][j] -= montoResta * 4;	
 					this.tablero[i+1][j] += montoResta;	
@@ -114,11 +115,19 @@ class Pila
 					this.tablero[i-1][j] += montoResta;	
 					this.tablero[i][j-1] += montoResta;	
 
+					if (this.tablero[i][j] <= 3)
+					{
+						--i;
+						--j;
+					}
+
+				}
+				else
+				{
 					// estos ajustes son para ver si el derrumbe causo mas derrumbes,
 					// y volver a chequear las 4 celdas afectadas
 					// partiendo por la de arriba de la cruz
-					i -= 1;
-					j -= 1;
+					++j;
 				}
 			}	
 		}
@@ -152,7 +161,7 @@ class Pila
 	{
 		Ventana ventana = new Ventana(800, "Pila de arena");
 
-		System.out.println("Se usó " + this.nroVeces + " veces la logica de derrumbes de arena usando " + this.comparaciones + " comparaciones.");
+		System.out.println("Se usó " + this.nroVeces + " veces la logica de derrumbes de arena revisando " + this.celdasRevisadas + " celdas.");
 
 		ventana.mostrarMatriz(this.tablero);
 	}
