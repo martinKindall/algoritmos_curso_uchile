@@ -8,7 +8,7 @@ public class PilaArena
 	{
 		pilaTest();
 
-		Pila pilaArena = new Pila(ingresarN());
+		Tablero pilaArena = new Tablero(ingresarN());
 
 		pilaArena.moverArena(mejorado);
 		pilaArena.mostrar();
@@ -27,7 +27,7 @@ public class PilaArena
 	
 	public static void pilaTest()
 	{
-		Pila pilaArena = new Pila(5);
+		Tablero pilaArena = new Tablero(5);
 		pilaArena.moverArena(mejorado);
 
 		int[][] tableroFinal = new int[3][3];
@@ -47,7 +47,7 @@ public class PilaArena
 	}
 }
 
-class Pila
+class Tablero
 {
 	double celdasRevisadas = 0;
 	int nroVeces = 0;
@@ -55,7 +55,7 @@ class Pila
 	int ladoTablero;
 	int[][] tablero;
 
-	public Pila(int nGranos)
+	public Tablero(int nGranos)
 	{
 		this.nGranos = nGranos;
 		this.ladoTablero = estimarTableroSegunNGranos(nGranos);
@@ -120,7 +120,6 @@ class Pila
 						--i;
 						--j;
 					}
-
 				}
 				else
 				{
