@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class PilaArena 
 {
-	final static boolean mejorado = true;
+	final static boolean recursivo = false;
 
 	public static void main(String[] args) 
 	{
@@ -10,7 +10,15 @@ public class PilaArena
 
 		Tablero pilaArena = new Tablero(ingresarN());
 
-		pilaArena.moverArena(mejorado);
+		if (recursivo)
+		{
+			pilaArena.recMoverArena();
+		}
+		else
+		{
+			pilaArena.moverArena();
+		}
+
 		pilaArena.mostrar();
 	}
 
@@ -28,7 +36,7 @@ public class PilaArena
 	public static void pilaTest()
 	{
 		Tablero pilaArena = new Tablero(5);
-		pilaArena.moverArena(mejorado);
+		pilaArena.moverArena();
 
 		int[][] tableroFinal = new int[3][3];
 		tableroFinal[0][1] = 1;
@@ -49,9 +57,12 @@ public class PilaArena
 
 class Tablero
 {
+	final static boolean mejorado = false;
+
 	double celdasRevisadas = 0;
 	int nroVeces = 0;
 	int nGranos;
+	int montoResta;
 	int ladoTablero;
 	int[][] tablero;
 
@@ -77,9 +88,8 @@ class Tablero
 	/**
 	 * [moverArena: simula los derrumbes de una cantidad nGranos en una celda determinada por el indice puntoInicial]
 	 * efecto -> modifica el arreglo tablero segun las reglas de derrumbes de arena]
-	 * @param mejorado
 	 */
-	public void moverArena(boolean mejorado)
+	public void moverArena()
 	{
 		int indiceCentro = --this.ladoTablero / 2;
 
@@ -107,13 +117,13 @@ class Tablero
 
 					this.nroVeces += 1;
 
-					montoResta = mejorado ? this.tablero[i][j]/4 : 1;
+					this.montoResta = mejorado ? this.tablero[i][j]/4 : 1;
 
-					this.tablero[i][j] -= montoResta * 4;	
-					this.tablero[i+1][j] += montoResta;	
-					this.tablero[i][j+1] += montoResta;	
-					this.tablero[i-1][j] += montoResta;	
-					this.tablero[i][j-1] += montoResta;	
+					this.tablero[i][j] -= this.montoResta * 4;	
+					this.tablero[i+1][j] += this.montoResta;	
+					this.tablero[i][j+1] += this.montoResta;	
+					this.tablero[i-1][j] += this.montoResta;	
+					this.tablero[i][j-1] += this.montoResta;	
 
 					if (this.tablero[i][j] <= 3)
 					{
@@ -135,18 +145,50 @@ class Tablero
 	/**
 	 * [recMoverArena: funciona para N muy bajo, de forma recursiva]
 	 * efecto -> ordena el arena de acuerdo a la regla de derrumbes
-	 * @param i       
-	 * @param j       
 	 */
-	public void recMoverArena(int i, int j)
+	public void recMoverArena()
 	{
+		int indiceCentro = --this.ladoTablero / 2;
+
+		this.tablero[indiceCentro][indiceCentro] = this.nGranos;
+
+		this.celdasRevisadas += 1;
+
+		if (this.tablero[indiceCentro][indiceCentro] > 3)
+		{
+			this.nroVeces += 1;
+
+			this.montoResta = mejorado ? this.tablero[indiceCentro][indiceCentro]/4 : 1;
+
+			this.tablero[indiceCentro][indiceCentro] -= 4 * this.montoResta;	
+			this.tablero[indiceCentro+1][indiceCentro] += this.montoResta;	
+			this.tablero[indiceCentro][indiceCentro+1] += this.montoResta;	
+			this.tablero[indiceCentro-1][indiceCentro] += this.montoResta;	
+			this.tablero[indiceCentro][indiceCentro-1] += this.montoResta;
+
+			this.recMoverArena(indiceCentro, indiceCentro);
+			this.recMoverArena(indiceCentro+1, indiceCentro);
+			this.recMoverArena(indiceCentro, indiceCentro+1);
+			this.recMoverArena(indiceCentro-1, indiceCentro);
+			this.recMoverArena(indiceCentro, indiceCentro-1);
+		}
+	}
+
+	private void recMoverArena(int i, int j)
+	{
+		this.celdasRevisadas += 1;
+
 		if (this.tablero[i][j] > 3)
 		{
-			this.tablero[i][j] -= 4;	
-			this.tablero[i+1][j] += 1;	
-			this.tablero[i][j+1] += 1;	
-			this.tablero[i-1][j] += 1;	
-			this.tablero[i][j-1] += 1;
+			this.nroVeces += 1;
+
+			this.montoResta = mejorado ? this.tablero[i][j]/4 : 1;
+
+			this.tablero[i][j] -= 4 * this.montoResta;	
+			this.tablero[i+1][j] += this.montoResta;	
+			this.tablero[i][j+1] += this.montoResta;	
+			this.tablero[i-1][j] += this.montoResta;	
+			this.tablero[i][j-1] += this.montoResta;
 
 			this.recMoverArena(i, j);
 			this.recMoverArena(i+1, j);
