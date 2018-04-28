@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Matrices{
 
 	public static int multiplicarMatrices(int[] p, int[][] m, int[][] s)
@@ -31,7 +33,16 @@ public class Matrices{
 		return m[1][n];
 	}
 
-	public static void printMatrix(int[][] mat)
+	static void printStringArray(String[] palabras)
+	{
+		for(int i = 0; i < palabras.length; i++)
+		{
+			if (palabras[i] == null) break;
+			System.out.println(palabras[i]);
+		}
+	}
+
+	static void printMatrix(int[][] mat)
 	{
 		System.out.println("Matriz = \n");
 		for(int i = 0; i < mat.length; i++)
@@ -63,6 +74,31 @@ public class Matrices{
 	}
 
 	public static void main(String[] args) 
+	{
+		// tests();
+		
+		String[] inputs = new String[10];
+		matrixParser(inputs);
+	}
+
+	static void matrixParser(String[] inputs)
+	{
+		Scanner scanner = new Scanner(System.in);
+
+	    String line = scanner.nextLine(); 
+	    int index = -1;
+
+		while (line.compareTo("") != 0) 
+		{
+			++index;
+			inputs[index] = line;
+		    line = scanner.nextLine(); 
+		}
+
+		printStringArray(inputs);
+	}
+
+	static void tests()
 	{
 		int[] matrices = {100, 10, 100, 10};
 		int nMatrices = matrices.length;
