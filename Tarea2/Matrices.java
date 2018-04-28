@@ -23,24 +23,24 @@ public class Matrices{
 		int[] matrices = strToIntArr(s);
 		int nMatrices = matrices.length;
 
-		int[][] steps = new int[nMatrices][nMatrices];
+		int[][] separadores = new int[nMatrices][nMatrices];
 		int[][] costos = new int[nMatrices][nMatrices];
 
-		multiplicarMatrices(matrices, costos, steps);
-		// printMatrix(steps);
+		multiplicarMatrices(matrices, costos, separadores);
+		// printMatrix(separadores);
 		// printMatrix(costos);
 
-		return printParentesis(steps, 1, nMatrices-1);
+		return printParentesis(separadores, 1, nMatrices-1);
 	}
 
-	static int multiplicarMatrices(int[] p, int[][] m, int[][] s)
+	static int multiplicarMatrices(int[] p, int[][] costos, int[][] separadores)
 	{
 		int nMatrices = p.length;
 		int n = nMatrices - 1;
 
 		for (int i=1; i <= n; i++) 
 		{
-			m[i][i] = 0;
+			costos[i][i] = 0;
 		}
 
 		for (int l=2; l<=n; l++) 
@@ -48,20 +48,20 @@ public class Matrices{
 			for (int i=1; i<=n-l+1; i++) 
 			{
 				int j = i + l - 1;
-				m[i][j] = Integer.MAX_VALUE;
+				costos[i][j] = Integer.MAX_VALUE;
 				for (int k=i; k<=j-1; k++) 
 				{
-					int q = m[i][k] + m[k+1][j] + p[i-1]*p[k]*p[j];
-					if(q < m[i][j])
+					int q = costos[i][k] + costos[k+1][j] + p[i-1]*p[k]*p[j];
+					if(q < costos[i][j])
 					{
-						m[i][j] = q;
-						s[i][j] = k;
+						costos[i][j] = q;
+						separadores[i][j] = k;
 					}
 				}
 			}	
 		}
 
-		return m[1][n];
+		return costos[1][n];
 	}
 
 	static void printStringArray(String[] palabras)
