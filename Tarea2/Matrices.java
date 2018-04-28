@@ -1,25 +1,6 @@
 public class Matrices{
 
-	public static void main(String[] args) 
-	{
-		int[] matrices = {100, 10, 100, 10};
-		int nMatrices = matrices.length;
-
-		int[][] steps = new int[nMatrices][nMatrices];
-		int[][] costos = new int[nMatrices][nMatrices];
-
-		int costo = multiplicarMatrices(matrices, costos, steps);
-
-		System.out.println("El costo de multiplicar es: " + costo);
-
-		System.out.println("La matriz de pasos es: ");
-		printMatrix(steps);
-
-		System.out.println("La matriz de costos es: ");
-		printMatrix(costos);
-	}
-
-	static int multiplicarMatrices(int[] p, int[][] m, int[][] s)
+	public static int multiplicarMatrices(int[] p, int[][] m, int[][] s)
 	{
 		int nMatrices = p.length;
 		int n = nMatrices - 1;
@@ -63,5 +44,42 @@ public class Matrices{
 			}
 			System.out.print("\n");
 		}
+	}
+
+	static String printParentesis(int[][] s, int i, int j)
+	{
+		if (i == j)
+		{
+			return ".";
+		}
+		else
+		{
+			return 
+				"(" + 
+				printParentesis(s, i, s[i][j]) +
+				printParentesis(s, s[i][j] + 1, j) +
+				")";
+		}
+	}
+
+	public static void main(String[] args) 
+	{
+		int[] matrices = {100, 10, 100, 10};
+		int nMatrices = matrices.length;
+
+		int[][] steps = new int[nMatrices][nMatrices];
+		int[][] costos = new int[nMatrices][nMatrices];
+
+		int costo = multiplicarMatrices(matrices, costos, steps);
+
+		System.out.println("El costo de multiplicar es: " + costo);
+
+		System.out.println("La matriz de pasos es: ");
+		printMatrix(steps);
+
+		System.out.println("La matriz de costos es: ");
+		printMatrix(costos);
+
+		System.out.println(printParentesis(steps, 1, nMatrices-1));
 	}
 }
