@@ -154,5 +154,6 @@ public class Matrices{
 		assert(stringMultiplicarMatrices("10 100 10 100").compareTo("((..).)") == 0);
 		assert(stringMultiplicarMatrices("2 3 5 4").compareTo("((..).)") == 0);
 		assert(stringMultiplicarMatrices("2 3 5 4 1 2").compareTo("((.(.(..))).)") == 0);
+		assert(stringMultiplicarMatrices("10 30 5 60").compareTo("((..).)") == 0);
 	}
 }
