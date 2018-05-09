@@ -10,12 +10,37 @@ public class Derivar_polaca{
 		System.out.print("Ingrese expresion en notacion polaca inversa: ");
 		Scanner scanner = new Scanner(System.in);
 
-	    String line = scanner.nextLine();
+	    String expresion = scanner.nextLine();
 
-	    String elems[] = line.split(" ");
+	    ArbolBinario result = polacaToArbol(expresion);
 
-	    System.out.println(line);
-	    System.out.println(Arrays.toString(elems));
+	    System.out.println(result);
+	}
+
+	static ArbolBinario polacaToArbol(String exp)
+	{
+		String elems[] = exp.split(" ");
+		Pila pila = new Pila();
+		int exp_size = elems.length;
+		String operaciones = "+-/*";
+
+		for (int i=0; i<exp_size; i++) 
+		{
+			String curr_char = elems[i];
+
+			if (operaciones.contains(curr_char))
+			{
+				ArbolBinario der = pila.desapilar();
+				ArbolBinario izq = pila.desapilar();
+
+				pila.apilar(new ArbolBinario(curr_char, izq, der));
+			}else
+			{
+				pila.apilar(new ArbolBinario(curr_char));
+			}
+		}
+
+		return pila.desapilar();
 	}
 
 	static void tests()
