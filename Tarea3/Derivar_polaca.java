@@ -101,6 +101,9 @@ public class Derivar_polaca{
 
 		if (arbol.val.equals(variable))
 			return new ArbolBinario("1");
+		
+		if(arbol.val.equals("-" + variable))
+			return new ArbolBinario("-1");
 
 		return new ArbolBinario("0");
 	}
