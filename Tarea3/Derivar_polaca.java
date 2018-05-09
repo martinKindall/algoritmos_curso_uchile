@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.Arrays;
 
 public class Derivar_polaca{
 
@@ -11,7 +12,10 @@ public class Derivar_polaca{
 
 	    String line = scanner.nextLine();
 
+	    String elems[] = line.split(" ");
+
 	    System.out.println(line);
+	    System.out.println(Arrays.toString(elems));
 	}
 
 	static void tests()
