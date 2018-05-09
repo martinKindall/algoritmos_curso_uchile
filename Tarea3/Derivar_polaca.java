@@ -16,7 +16,9 @@ public class Derivar_polaca{
 
 	    System.out.println(arbolToInFijo(result));
 	    System.out.println(arbolToInFijo(derivarArbol(result, "x")));
+	    System.out.println(arbolToInFijo(simplificarArbol(derivarArbol(result, "x"))));
 	    System.out.println(arbolToInFijo(derivarArbol(result, "y")));
+	    System.out.println(arbolToInFijo(simplificarArbol(derivarArbol(result, "y"))));
 	}
 
 	static ArbolBinario polacaToArbol(String exp)
@@ -81,6 +83,75 @@ public class Derivar_polaca{
 
 				return new ArbolBinario("0");
 		}
+	}
+
+	static ArbolBinario simplificarArbol(ArbolBinario arbol)
+	{
+		if (arbol == null) return null;
+
+		String operaciones = "+-/*";
+		ArbolBinario aIzq = simplificarArbol(arbol.izq);
+		ArbolBinario aDer = simplificarArbol(arbol.der);
+
+		if (operaciones.contains(arbol.val))
+		{
+			String izq = aIzq.val;
+			String der = aDer.val;
+
+			String cero = "0";
+			String uno = "1";
+
+			switch (arbol.val) 
+			{
+				case "+":
+					if (izq.equals(cero))
+					{
+						return aDer;
+					}
+					else if(der.equals(cero))
+					{
+						return aIzq;
+					}
+					break;
+
+				case "-":
+					if(der.equals(cero))
+					{
+						return aIzq;
+					}
+					break;
+
+				case "*":
+					if (izq.equals(cero) || der.equals(cero))
+					{
+						return new ArbolBinario(cero);
+					}
+					if (izq.equals(uno))
+					{
+						return aDer;
+					}
+					else if(der.equals(uno))
+					{
+						return aIzq;
+					}
+					break;
+
+				case "/":
+					if(izq.equals(cero))
+					{
+						return new ArbolBinario(cero);
+					}
+					if(der.equals(uno))
+					{
+						return aIzq;
+					}
+					break;
+
+				default:   
+					break;
+			}
+		}
+		return new ArbolBinario(arbol.val, aIzq, aDer);
 	}
 
 	static String arbolToInFijo(ArbolBinario arbol)
