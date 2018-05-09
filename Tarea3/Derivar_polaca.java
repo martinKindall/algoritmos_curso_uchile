@@ -101,7 +101,7 @@ public class Derivar_polaca{
 
 		if (arbol.val.equals(variable))
 			return new ArbolBinario("1");
-		
+
 		if(arbol.val.equals("-" + variable))
 			return new ArbolBinario("-1");
 
@@ -202,10 +202,30 @@ public class Derivar_polaca{
 	{
 		if (arbol == null) return "";
 
+		ArbolBinario aIzq = arbol.izq;
+		ArbolBinario aDer = arbol.der;
+
 		String operaciones = "+-/*";
+		String operacionesMayor = "/*";
 
 		if (operaciones.contains(arbol.val))
-			return "(" + arbolToInFijo(arbol.izq) + arbol.val + arbolToInFijo(arbol.der) + ")";
+		{
+			if (
+				operacionesMayor.contains(arbol.val) && 
+				operaciones.contains(aIzq.val) && 
+				!operaciones.contains(aDer.val))
+			{
+				return "(" + arbolToInFijo(arbol.izq) + ")" + arbol.val + arbolToInFijo(arbol.der);
+			}
+			else if (
+				operacionesMayor.contains(arbol.val) && 
+				!operaciones.contains(aIzq.val) && 
+				operaciones.contains(aDer.val))
+			{
+				return arbolToInFijo(arbol.izq) + arbol.val + "(" + arbolToInFijo(arbol.der) + ")";
+			}
+			else return arbolToInFijo(arbol.izq) + arbol.val + arbolToInFijo(arbol.der);
+		}
 
 		return arbol.val;
 	}
