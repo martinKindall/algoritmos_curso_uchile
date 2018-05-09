@@ -14,7 +14,9 @@ public class Derivar_polaca{
 
 	    ArbolBinario result = polacaToArbol(expresion);
 
-	    System.out.println(result);
+	    System.out.println(arbolToInFijo(result));
+	    System.out.println(arbolToInFijo(derivarArbol(result, "x")));
+	    System.out.println(arbolToInFijo(derivarArbol(result, "y")));
 	}
 
 	static ArbolBinario polacaToArbol(String exp)
@@ -79,6 +81,18 @@ public class Derivar_polaca{
 
 				return new ArbolBinario("0");
 		}
+	}
+
+	static String arbolToInFijo(ArbolBinario arbol)
+	{
+		if (arbol == null) return "";
+
+		String operaciones = "+-/*";
+
+		if (operaciones.contains(arbol.val))
+			return "(" + arbolToInFijo(arbol.izq) + arbol.val + arbolToInFijo(arbol.der) + ")";
+
+		return arbol.val;
 	}
 
 	static void tests()
