@@ -37,7 +37,8 @@ public class Derivar_polaca{
 				ArbolBinario izq = pila.desapilar();
 
 				pila.apilar(new ArbolBinario(curr_char, izq, der));
-			}else
+			}
+			else
 			{
 				pila.apilar(new ArbolBinario(curr_char));
 			}
@@ -237,6 +238,12 @@ public class Derivar_polaca{
 
 	static void tests()
 	{
-
+		ArbolBinario result = polacaToArbol("x y * 3 x * + x *");
+		assert arbolToInFijo(simplificarArbol(derivarArbol(result, "x"))).equals("(y + 3) * x + x * y + 3 * x");
+		assert arbolToInFijo(simplificarArbol(derivarArbol(result, "y"))).equals("x * x");
+		
+		result = polacaToArbol("2 x 3 / * y x - +");
+		assert arbolToInFijo(simplificarArbol(derivarArbol(result, "x"))).equals("2 * (1 / 3) - 1");
+		assert arbolToInFijo(simplificarArbol(derivarArbol(result, "y"))).equals("1");
 	}
 }
