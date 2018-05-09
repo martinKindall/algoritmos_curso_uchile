@@ -51,38 +51,58 @@ public class Derivar_polaca{
 	{
 		if (arbol == null) return null;
 
-		switch (arbol.val) 
+		String constantes = "0123456789";
+		String operaciones = "+-/*";
+
+		ArbolBinario aIzq = arbol.izq;
+		ArbolBinario aDer = arbol.der;
+
+		if (operaciones.contains(arbol.val))
 		{
-			case "+":
-				return new ArbolBinario("+", derivarArbol(arbol.izq, variable), derivarArbol(arbol.der, variable));
+			switch (arbol.val) 
+			{
+				case "+":
+					return new ArbolBinario("+", derivarArbol(arbol.izq, variable), derivarArbol(arbol.der, variable));
 
-			case "-":
-				return new ArbolBinario("-", derivarArbol(arbol.izq, variable), derivarArbol(arbol.der, variable));
+				case "-":
+					return new ArbolBinario("-", derivarArbol(arbol.izq, variable), derivarArbol(arbol.der, variable));
 
-			case "*":
-				return new ArbolBinario(
-					"+",
-					new ArbolBinario("*", derivarArbol(arbol.izq, variable), arbol.der),
-					new ArbolBinario("*", arbol.izq, derivarArbol(arbol.der, variable))
-					);
+				case "*":
+					if (constantes.contains(aIzq.val))
+					{
+						return new ArbolBinario("*", arbol.izq, derivarArbol(arbol.der, variable));
+					}
+					else if (constantes.contains(aDer.val))
+					{
+						return new ArbolBinario("*", derivarArbol(arbol.izq, variable), arbol.der);
+					}
 
-			case "/":
-				return new ArbolBinario(
-					"/",
-					new ArbolBinario(
-						"-",
+					return new ArbolBinario(
+						"+",
 						new ArbolBinario("*", derivarArbol(arbol.izq, variable), arbol.der),
 						new ArbolBinario("*", arbol.izq, derivarArbol(arbol.der, variable))
-						),
-					new ArbolBinario("*", arbol.der, arbol.der)
-					);
+						);
 
-			default:   // cuando es numero o variable
-				if (arbol.val.equals(variable))
-					return new ArbolBinario("1");
+				case "/":
+					return new ArbolBinario(
+						"/",
+						new ArbolBinario(
+							"-",
+							new ArbolBinario("*", derivarArbol(arbol.izq, variable), arbol.der),
+							new ArbolBinario("*", arbol.izq, derivarArbol(arbol.der, variable))
+							),
+						new ArbolBinario("*", arbol.der, arbol.der)
+						);
 
-				return new ArbolBinario("0");
+				default:   
+					break;
+			}
 		}
+
+		if (arbol.val.equals(variable))
+			return new ArbolBinario("1");
+
+		return new ArbolBinario("0");
 	}
 
 	static ArbolBinario simplificarArbol(ArbolBinario arbol)
@@ -100,6 +120,7 @@ public class Derivar_polaca{
 
 			String cero = "0";
 			String uno = "1";
+			String menos = "-";
 
 			switch (arbol.val) 
 			{
@@ -112,12 +133,32 @@ public class Derivar_polaca{
 					{
 						return aIzq;
 					}
+					else if(!der.equals(menos) && der.contains(menos))
+					{
+						aDer.val = der.replace(menos, "");
+						return new ArbolBinario("-", aIzq, aDer);
+					}
 					break;
 
 				case "-":
 					if(der.equals(cero))
 					{
 						return aIzq;
+					}
+					else if(izq.equals(cero))
+					{
+						if(!operaciones.contains(der))
+						{
+							if (der.contains(menos))
+							{
+								aDer.val = der.replace(menos, "");
+							}
+							else
+							{
+								aDer.val = menos + der;
+							}
+							return aDer;
+						}
 					}
 					break;
 
