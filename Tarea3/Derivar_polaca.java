@@ -3,22 +3,22 @@ import java.util.Arrays;
 
 public class Derivar_polaca{
 
+	static String operaciones = "+-/*";
+
 	public static void main(String[] args) 
 	{
 		tests();
 		
 		System.out.print("Ingrese expresion en notacion polaca inversa: ");
 		Scanner scanner = new Scanner(System.in);
-
 	    String expresion = scanner.nextLine();
+
+		System.out.print("Ingrese variable con la cual derivar: ");
+	    String variable = scanner.nextLine();
 
 	    ArbolBinario result = polacaToArbol(expresion);
 
-	    System.out.println(arbolToInFijo(result));
-	    System.out.println(arbolToInFijo(derivarArbol(result, "x")));
-	    System.out.println(arbolToInFijo(simplificarArbol(derivarArbol(result, "x"))));
-	    System.out.println(arbolToInFijo(derivarArbol(result, "y")));
-	    System.out.println(arbolToInFijo(simplificarArbol(derivarArbol(result, "y"))));
+	    System.out.println(arbolToInFijo(simplificarArbol(derivarArbol(result, variable))));
 	}
 
 	static ArbolBinario polacaToArbol(String exp)
@@ -26,7 +26,6 @@ public class Derivar_polaca{
 		String elems[] = exp.split(" ");
 		Pila pila = new Pila();
 		int exp_size = elems.length;
-		String operaciones = "+-/*";
 
 		for (int i=0; i<exp_size; i++) 
 		{
@@ -47,12 +46,14 @@ public class Derivar_polaca{
 		return pila.desapilar();
 	}
 
+	static boolean esConstante(String val, String variable)
+	{
+		return !operaciones.contains(val) && !(variable.equals(val) || variable.equals("-"+val));
+	}
+
 	static ArbolBinario derivarArbol(ArbolBinario arbol, String variable)
 	{
 		if (arbol == null) return null;
-
-		String constantes = "0123456789";
-		String operaciones = "+-/*";
 
 		ArbolBinario aIzq = arbol.izq;
 		ArbolBinario aDer = arbol.der;
@@ -62,36 +63,41 @@ public class Derivar_polaca{
 			switch (arbol.val) 
 			{
 				case "+":
-					return new ArbolBinario("+", derivarArbol(arbol.izq, variable), derivarArbol(arbol.der, variable));
+					return new ArbolBinario("+", derivarArbol(aIzq, variable), derivarArbol(aDer, variable));
 
 				case "-":
-					return new ArbolBinario("-", derivarArbol(arbol.izq, variable), derivarArbol(arbol.der, variable));
+					return new ArbolBinario("-", derivarArbol(aIzq, variable), derivarArbol(aDer, variable));
 
 				case "*":
-					if (constantes.contains(aIzq.val))
+					if (esConstante(aIzq.val, variable))
 					{
-						return new ArbolBinario("*", arbol.izq, derivarArbol(arbol.der, variable));
+						return new ArbolBinario("*", aIzq, derivarArbol(aDer, variable));
 					}
-					else if (constantes.contains(aDer.val))
+					else if (esConstante(aDer.val, variable))
 					{
-						return new ArbolBinario("*", derivarArbol(arbol.izq, variable), arbol.der);
+						return new ArbolBinario("*", derivarArbol(aIzq, variable), aDer);
 					}
 
 					return new ArbolBinario(
 						"+",
-						new ArbolBinario("*", derivarArbol(arbol.izq, variable), arbol.der),
-						new ArbolBinario("*", arbol.izq, derivarArbol(arbol.der, variable))
+						new ArbolBinario("*", derivarArbol(aIzq, variable), aDer),
+						new ArbolBinario("*", aIzq, derivarArbol(aDer, variable))
 						);
 
 				case "/":
+					if (esConstante(aDer.val, variable))
+					{
+						return new ArbolBinario("/", derivarArbol(aIzq, variable), aDer);
+					}
+
 					return new ArbolBinario(
 						"/",
 						new ArbolBinario(
 							"-",
-							new ArbolBinario("*", derivarArbol(arbol.izq, variable), arbol.der),
-							new ArbolBinario("*", arbol.izq, derivarArbol(arbol.der, variable))
+							new ArbolBinario("*", derivarArbol(aIzq, variable), aDer),
+							new ArbolBinario("*", aIzq, derivarArbol(aDer, variable))
 							),
-						new ArbolBinario("*", arbol.der, arbol.der)
+						new ArbolBinario("*", aDer, aDer)
 						);
 
 				default:   
@@ -112,7 +118,6 @@ public class Derivar_polaca{
 	{
 		if (arbol == null) return null;
 
-		String operaciones = "+-/*";
 		ArbolBinario aIzq = simplificarArbol(arbol.izq);
 		ArbolBinario aDer = simplificarArbol(arbol.der);
 
@@ -215,16 +220,16 @@ public class Derivar_polaca{
 				operaciones.contains(aIzq.val) && 
 				!operaciones.contains(aDer.val))
 			{
-				return "(" + arbolToInFijo(arbol.izq) + ")" + arbol.val + arbolToInFijo(arbol.der);
+				return "(" + arbolToInFijo(arbol.izq) + ")" + " " + arbol.val + " " + arbolToInFijo(arbol.der);
 			}
 			else if (
 				operacionesMayor.contains(arbol.val) && 
 				!operaciones.contains(aIzq.val) && 
 				operaciones.contains(aDer.val))
 			{
-				return arbolToInFijo(arbol.izq) + arbol.val + "(" + arbolToInFijo(arbol.der) + ")";
+				return arbolToInFijo(arbol.izq) + " " + arbol.val + " " + "(" + arbolToInFijo(arbol.der) + ")";
 			}
-			else return arbolToInFijo(arbol.izq) + arbol.val + arbolToInFijo(arbol.der);
+			else return arbolToInFijo(arbol.izq) + " " + arbol.val + " " + arbolToInFijo(arbol.der);
 		}
 
 		return arbol.val;
