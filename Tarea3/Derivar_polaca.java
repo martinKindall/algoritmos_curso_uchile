@@ -43,6 +43,44 @@ public class Derivar_polaca{
 		return pila.desapilar();
 	}
 
+	static ArbolBinario derivarArbol(ArbolBinario arbol, String variable)
+	{
+		if (arbol == null) return null;
+
+		switch (arbol.val) 
+		{
+			case "+":
+				return new ArbolBinario("+", derivarArbol(arbol.izq, variable), derivarArbol(arbol.der, variable));
+
+			case "-":
+				return new ArbolBinario("-", derivarArbol(arbol.izq, variable), derivarArbol(arbol.der, variable));
+
+			case "*":
+				return new ArbolBinario(
+					"+",
+					new ArbolBinario("*", derivarArbol(arbol.izq, variable), arbol.der),
+					new ArbolBinario("*", arbol.izq, derivarArbol(arbol.der, variable))
+					);
+
+			case "/":
+				return new ArbolBinario(
+					"/",
+					new ArbolBinario(
+						"-",
+						new ArbolBinario("*", derivarArbol(arbol.izq, variable), arbol.der),
+						new ArbolBinario("*", arbol.izq, derivarArbol(arbol.der, variable))
+						),
+					new ArbolBinario("*", arbol.der, arbol.der)
+					);
+
+			default:   // cuando es numero o variable
+				if (arbol.val.equals(variable))
+					return new ArbolBinario("1");
+
+				return new ArbolBinario("0");
+		}
+	}
+
 	static void tests()
 	{
 
