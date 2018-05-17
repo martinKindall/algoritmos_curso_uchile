@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import java.util.Arrays;
 
 public class Derivar_polaca{
 
@@ -17,8 +16,10 @@ public class Derivar_polaca{
 	    String variable = scanner.nextLine();
 
 	    ArbolBinario result = polacaToArbol(expresion);
+	    ArbolBinario simple = simplificarArbol(derivarArbol(result, variable));
 
-	    System.out.println(arbolToInFijo(simplificarArbol(derivarArbol(result, variable))));
+	    System.out.println(arbolToInFijo(simple));
+	    // System.out.println(arbolToInFijoFullParentesis(simple));
 	}
 
 	static ArbolBinario polacaToArbol(String exp)
@@ -208,29 +209,50 @@ public class Derivar_polaca{
 	{
 		if (arbol == null) return "";
 
+		String valor = arbol.val;
+
 		ArbolBinario aIzq = arbol.izq;
 		ArbolBinario aDer = arbol.der;
 
-		String operaciones = "+-/*";
-		String operacionesMayor = "/*";
+		String operacionesMenor = "+-";
+
+		String par1Izq = "";
+		String par1Der = "";
+		String par2Izq = "";
+		String par2Der = "";
+
+		if (operaciones.contains(valor))
+		{
+			if (operacionesMenor.contains(valor))
+			{
+				return arbolToInFijo(aIzq) + " " + valor + " " + arbolToInFijo(aDer);
+			}
+
+			if (operacionesMenor.contains(aIzq.val) || ("/".contains(valor) && operaciones.contains(aIzq.val)))
+			{
+				par1Izq = "(";
+				par1Der = ")";
+			}
+
+			if (operacionesMenor.contains(aDer.val) || ("/".contains(valor) && operaciones.contains(aDer.val)))
+			{
+				par2Izq = "(";
+				par2Der = ")";
+			}
+
+			return par1Izq + arbolToInFijo(aIzq) + par1Der + " " + valor + " " + par2Izq + arbolToInFijo(aDer) + par2Der;
+		}
+
+		return valor;
+	}
+
+	static String arbolToInFijoFullParentesis(ArbolBinario arbol)
+	{
+		if (arbol == null) return "";
 
 		if (operaciones.contains(arbol.val))
 		{
-			if (
-				operacionesMayor.contains(arbol.val) && 
-				operaciones.contains(aIzq.val) && 
-				!operaciones.contains(aDer.val))
-			{
-				return "(" + arbolToInFijo(arbol.izq) + ")" + " " + arbol.val + " " + arbolToInFijo(arbol.der);
-			}
-			else if (
-				operacionesMayor.contains(arbol.val) && 
-				!operaciones.contains(aIzq.val) && 
-				operaciones.contains(aDer.val))
-			{
-				return arbolToInFijo(arbol.izq) + " " + arbol.val + " " + "(" + arbolToInFijo(arbol.der) + ")";
-			}
-			else return arbolToInFijo(arbol.izq) + " " + arbol.val + " " + arbolToInFijo(arbol.der);
+			return "(" + arbolToInFijoFullParentesis(arbol.izq) + ")" + " " + arbol.val + " " + "(" + arbolToInFijoFullParentesis(arbol.der) + ")";
 		}
 
 		return arbol.val;
@@ -243,7 +265,11 @@ public class Derivar_polaca{
 		assert arbolToInFijo(simplificarArbol(derivarArbol(result, "y"))).equals("x * x");
 		
 		result = polacaToArbol("2 x 3 / * y x - +");
-		assert arbolToInFijo(simplificarArbol(derivarArbol(result, "x"))).equals("2 * (1 / 3) - 1");
+		assert arbolToInFijo(simplificarArbol(derivarArbol(result, "x"))).equals("2 * 1 / 3 - 1");
 		assert arbolToInFijo(simplificarArbol(derivarArbol(result, "y"))).equals("1");
+
+		result = polacaToArbol("1 x / x /");
+		assert arbolToInFijo(simplificarArbol(derivarArbol(result, "x"))).equals("(-1 / (x * x) * x - 1 / x) / (x * x)");
+		assert arbolToInFijo(simplificarArbol(derivarArbol(result, "y"))).equals("0");
 	}
 }
