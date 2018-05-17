@@ -225,7 +225,13 @@ public class Derivar_polaca{
 		{
 			if (operacionesMenor.contains(valor))
 			{
-				return arbolToInFijo(aIzq) + " " + valor + " " + arbolToInFijo(aDer);
+				if ("-".contains(valor) && operacionesMenor.contains(aDer.val))
+				{
+					par2Izq = "(";
+					par2Der = ")";
+				}
+
+				return arbolToInFijo(aIzq) + " " + valor + " " + par2Izq + arbolToInFijo(aDer) + par2Der;
 			}
 
 			if (operacionesMenor.contains(aIzq.val) || ("/".contains(valor) && operaciones.contains(aIzq.val)))
