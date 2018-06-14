@@ -25,35 +25,35 @@ public class CartesianTree
 	
 	public CartesianTree insertar(int v, double w)
 	{
-		CartesianTree nodoInsertado = this.insertarAbb(v, w, this);
+		CartesianTree nodoInsertado = this.insertarAbb(v, w);
 		return nodoInsertado.rotar();
 	}
 
-	public CartesianTree insertarAbb(int v, double w, CartesianTree padre)
+	public CartesianTree insertarAbb(int v, double w)
 	{
 		if (numX == v)
 		{
-			return null;
+			return this;
 		}
 
 		if (numX > v)
 		{
 			if (izq == null)
 			{
-				izq = new CartesianTree(v, w, padre);
+				izq = new CartesianTree(v, w, this);
 				return izq;
 			}
 
-			return izq.insertarAbb(v, w, this);
+			return izq.insertarAbb(v, w);
 		}
 		else
 		{
 			if (der == null)
 			{
-				der = new CartesianTree(v, w, padre);
+				der = new CartesianTree(v, w, this);
 				return der;
 			}
-			return der.insertarAbb(v, w, this);
+			return der.insertarAbb(v, w);
 		}
 	}
 
@@ -70,12 +70,14 @@ public class CartesianTree
 			padre.izq = der;
 			der = padre;
 			padre = padre.padre;
+			der.padre = this;
 		}
 		else
 		{
 			padre.der = izq;
 			izq = padre;
 			padre = padre.padre;
+			izq.padre = this;
 		}
 
 		return this.rotar();
