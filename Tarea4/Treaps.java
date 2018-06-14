@@ -14,5 +14,9 @@ public class Treaps{
 
 		System.out.println(numX);
 		System.out.println(numY);
+
+		CartesianTree tree = new CartesianTree(numX, numY);
+
+		tree.insertar(25, 8);
 	}
 }
