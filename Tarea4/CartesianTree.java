@@ -62,26 +62,28 @@ public class CartesianTree
 
 	}
 
-	public void imprimir()
+	public String imprimir()
 	{
+		String izqMsg, derMsgM;
+
 		if (izq == null)
 		{
-			System.out.print("[]");
+			izqMsg = "[]";
 		}
 		else
 		{
-			izq.imprimir();
+			izqMsg = izq.imprimir();
 		}
 
 		if (der == null)
 		{
-			System.out.print("[]");
+			derMsgM = "[]";
 		}
 		else
 		{
-			der.imprimir();
+			derMsgM = der.imprimir();
 		}
 
-		System.out.print("(" + numX + "," + numY +")");		
+		return izqMsg + derMsgM + "(" + numX + "," + numY +")";		
 	}
 }
