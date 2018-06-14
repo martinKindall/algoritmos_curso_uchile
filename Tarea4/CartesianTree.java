@@ -11,7 +11,7 @@ public class CartesianTree
 		numY = w;
 		izq = null;
 		der = null;
-		padre = null;
+		this.padre = null;
 	}
 
 	public CartesianTree(int v, double w, CartesianTree padre) 
@@ -20,13 +20,13 @@ public class CartesianTree
 		numY = w;
 		izq = null;
 		der = null;
-		padre = padre;
+		this.padre = padre;
 	}
 	
-	public void insertar(int v, double w)
+	public CartesianTree insertar(int v, double w)
 	{
 		CartesianTree nodoInsertado = this.insertarAbb(v, w, this);
-		this.rotar(nodoInsertado);
+		return nodoInsertado.rotar();
 	}
 
 	public CartesianTree insertarAbb(int v, double w, CartesianTree padre)
@@ -57,9 +57,28 @@ public class CartesianTree
 		}
 	}
 
-	public void rotar(CartesianTree nodo)
+	public CartesianTree rotar()
 	{
+		if (padre == null || padre.numY <= numY)
+		{
+			if (padre == null) return this;
+			return padre.rotar();
+		}
 
+		if (padre.numX > numX)
+		{
+			padre.izq = der;
+			der = padre;
+			padre = padre.padre;
+		}
+		else
+		{
+			padre.der = izq;
+			izq = padre;
+			padre = padre.padre;
+		}
+
+		return this.rotar();
 	}
 
 	public String imprimir()
