@@ -12,11 +12,18 @@ public class Treaps{
 		int numX = Integer.parseInt(parOrd[0]);
 		double numY = Double.parseDouble(parOrd[1]);
 
-		System.out.println(numX);
-		System.out.println(numY);
-
 		CartesianTree tree = new CartesianTree(numX, numY);
 
-		tree.insertar(25, 8);
+		while (true) 
+		{
+		    expresion = scanner.nextLine(); 
+		    if (expresion.compareTo("end") == 0) break;
+
+		    parOrd = expresion.split(" ");
+			numX = Integer.parseInt(parOrd[0]);
+			numY = Double.parseDouble(parOrd[1]);
+
+			tree.insertar(numX, numY);
+		}
 	}
 }
