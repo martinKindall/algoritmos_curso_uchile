@@ -61,4 +61,27 @@ public class CartesianTree
 	{
 
 	}
+
+	public void imprimir()
+	{
+		if (izq == null)
+		{
+			System.out.print("[]");
+		}
+		else
+		{
+			izq.imprimir();
+		}
+
+		if (der == null)
+		{
+			System.out.print("[]");
+		}
+		else
+		{
+			der.imprimir();
+		}
+
+		System.out.print("(" + numX + "," + numY +")");		
+	}
 }

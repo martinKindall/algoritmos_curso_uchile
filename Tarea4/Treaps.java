@@ -25,5 +25,8 @@ public class Treaps{
 
 			tree.insertar(numX, numY);
 		}
+
+		tree.imprimir();
+		System.out.println("");
 	}
 }
