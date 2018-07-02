@@ -74,12 +74,31 @@ public class CartesianTree
 		if (padre == null || padre.numY <= numY)
 		{
 			if (padre == null) return this;
+
+			// para corregir referencias de padres a hijos 
+			// en caso que no ocurran mas rotaciones
+			if (padre.numX > numX)
+			{
+				padre.izq = this;
+			}
+			else
+			{
+				padre.der = this;
+			}
+
 			return padre.rotar();
 		}
 
 		if (padre.numX > numX)
 		{
 			padre.izq = der;
+
+			// se debe corregir tambien el puntero padre de los hijos a rotar
+			if (der != null)
+			{
+				der.padre = padre;
+			}
+
 			der = padre;
 			padre = padre.padre;
 			der.padre = this;
@@ -87,6 +106,12 @@ public class CartesianTree
 		else
 		{
 			padre.der = izq;
+
+			if (izq != null)
+			{
+				izq.padre = padre;
+			}
+
 			izq = padre;
 			padre = padre.padre;
 			izq.padre = this;
@@ -157,7 +182,7 @@ public class CartesianTree
 
 	public double costoPromedio()
 	{
-		return this.costoTotal() / this.numNodos();
+		return this.costoTotal() * 1.0 / this.numNodos();
 	}
 
 	public void corregirAlturas()
