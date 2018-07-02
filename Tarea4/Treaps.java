@@ -46,6 +46,8 @@ public class Treaps{
 		treeTest.insertarAbb(78, 15);
 
 		assert(treeTest.imprimir().compareTo(correcto1) == 0);
+		assert(treeTest.costoTotal() == 24);
+		assert(treeTest.costoPromedio() == 3);
 
 		// test de rotaciones
 		String correcto2 = "[][][][](78,15.0)(3,3.0)(2,2.0)";
