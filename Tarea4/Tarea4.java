@@ -7,7 +7,61 @@ public class Tarea4{
 		tests();
 
 		// prueba1();
-		prueba2();
+		parte2();
+	}
+
+	public static void prueba1()
+	{
+		System.out.print("Ingrese par ordenado: ");
+		Scanner scanner = new Scanner(System.in);
+	    String expresion = scanner.nextLine();
+
+	    String[] parOrd = expresion.split(" ");
+		int numX = Integer.parseInt(parOrd[0]);
+		double numY = Double.parseDouble(parOrd[1]);
+
+		CartesianTree tree = new CartesianTree(numX, numY);
+
+		while (true) 
+		{
+		    expresion = scanner.nextLine(); 
+		    if (expresion.compareTo("end") == 0) break;
+
+		    parOrd = expresion.split(" ");
+			numX = Integer.parseInt(parOrd[0]);
+			numY = Double.parseDouble(parOrd[1]);
+
+			tree = tree.insertar(numX, numY);
+		}
+
+		System.out.println(tree.imprimir());
+	}
+
+	public static void parte2()
+	{	
+		int expMin = 10;
+		int expMax = 16;
+		int nroRepeticiones = 1;
+
+		double promediosFinales[] = new double[expMax - expMin + 1];
+
+		for (int exp = expMin; exp <= expMax; exp++) 
+		{
+			double costoAcum = 0;
+			int indice = exp - expMin;	
+
+			for (int idy = 1; idy <= nroRepeticiones; idy++) 
+			{
+				costoAcum += Treap.costoPromedioHastaN((int)Math.pow(2, exp));
+			}
+
+			promediosFinales[indice] = costoAcum / nroRepeticiones;
+		}
+
+		for (int idx=0; idx < promediosFinales.length; idx++) 
+		{
+			System.out.println(promediosFinales[idx]);
+		}
 	}
 
 	public static void tests()
@@ -56,41 +110,10 @@ public class Tarea4{
 
 		assert(treeTest4.imprimir().compareTo(correcto1) == 0);
 		assert(treeTest4.costoPromedio() == 3);
-	}
 
-	public static void prueba1()
-	{
-		System.out.print("Ingrese par ordenado: ");
-		Scanner scanner = new Scanner(System.in);
-	    String expresion = scanner.nextLine();
-
-	    String[] parOrd = expresion.split(" ");
-		int numX = Integer.parseInt(parOrd[0]);
-		double numY = Double.parseDouble(parOrd[1]);
-
-		CartesianTree tree = new CartesianTree(numX, numY);
-
-		while (true) 
-		{
-		    expresion = scanner.nextLine(); 
-		    if (expresion.compareTo("end") == 0) break;
-
-		    parOrd = expresion.split(" ");
-			numX = Integer.parseInt(parOrd[0]);
-			numY = Double.parseDouble(parOrd[1]);
-
-			tree = tree.insertar(numX, numY);
-		}
-
-		System.out.println(tree.imprimir());
-	}
-
-	public static void prueba2()
-	{	
-		Treap treeTest = new Treap(37);
-		treeTest.insertar(63);
-		treeTest.insertar(42);
-
-		System.out.println(Treap.costoPromedioHastaN(1024));
+		// creando e insertando treaps
+		Treap treapTest = new Treap(37);
+		treapTest.insertar(63);
+		treapTest.insertar(42);
 	}
 }

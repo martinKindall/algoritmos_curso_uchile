@@ -1,5 +1,3 @@
-import java.util.Random;
-
 public class Treap
 {
 	CartesianTree arbol;
@@ -46,13 +44,9 @@ public class Treap
 			numerosDesordenados[idx] = idx+1;
 		}
 
-		Random random;
-
 		for (int idx=n-1; idx >= 0; idx--)
 		{
-			random = new Random();
-
-			int aleatorio = random.nextInt(idx + 1);
+			int aleatorio = randInt(0, idx);
 
 			// swap
 			int aux = numerosDesordenados[idx];
@@ -61,5 +55,10 @@ public class Treap
 		}
 
 		return numerosDesordenados;
+	}
+
+	public static int randInt(int x, int y)
+	{
+		return x + (int) (Math.random() * (y-x+1));
 	}
 }
