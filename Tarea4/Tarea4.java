@@ -1,34 +1,13 @@
 import java.util.Scanner;
 
-public class Treaps{
+public class Tarea4{
 
 	public static void main(String[] args) 
 	{
 		tests();
 
-		System.out.print("Ingrese par ordenado: ");
-		Scanner scanner = new Scanner(System.in);
-	    String expresion = scanner.nextLine();
-
-	    String[] parOrd = expresion.split(" ");
-		int numX = Integer.parseInt(parOrd[0]);
-		double numY = Double.parseDouble(parOrd[1]);
-
-		CartesianTree tree = new CartesianTree(numX, numY);
-
-		while (true) 
-		{
-		    expresion = scanner.nextLine(); 
-		    if (expresion.compareTo("end") == 0) break;
-
-		    parOrd = expresion.split(" ");
-			numX = Integer.parseInt(parOrd[0]);
-			numY = Double.parseDouble(parOrd[1]);
-
-			tree = tree.insertar(numX, numY);
-		}
-
-		System.out.println(tree.imprimir());
+		// prueba1();
+		prueba2();
 	}
 
 	public static void tests()
@@ -77,5 +56,41 @@ public class Treaps{
 
 		assert(treeTest4.imprimir().compareTo(correcto1) == 0);
 		assert(treeTest4.costoPromedio() == 3);
+	}
+
+	public static void prueba1()
+	{
+		System.out.print("Ingrese par ordenado: ");
+		Scanner scanner = new Scanner(System.in);
+	    String expresion = scanner.nextLine();
+
+	    String[] parOrd = expresion.split(" ");
+		int numX = Integer.parseInt(parOrd[0]);
+		double numY = Double.parseDouble(parOrd[1]);
+
+		CartesianTree tree = new CartesianTree(numX, numY);
+
+		while (true) 
+		{
+		    expresion = scanner.nextLine(); 
+		    if (expresion.compareTo("end") == 0) break;
+
+		    parOrd = expresion.split(" ");
+			numX = Integer.parseInt(parOrd[0]);
+			numY = Double.parseDouble(parOrd[1]);
+
+			tree = tree.insertar(numX, numY);
+		}
+
+		System.out.println(tree.imprimir());
+	}
+
+	public static void prueba2()
+	{	
+		Treap treeTest = new Treap(37);
+		treeTest.insertar(63);
+		treeTest.insertar(42);
+
+		System.out.println(Treap.costoPromedioHastaN(1024));
 	}
 }
