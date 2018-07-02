@@ -76,5 +76,7 @@ public class Treaps{
 		treeTest4 = treeTest4.insertar(37, 3);
 
 		assert(treeTest4.imprimir().compareTo(correcto1) == 0);
+		double costoProm = treeTest4.costoPromedio();
+		assert(treeTest4.costoPromedio() == 3);
 	}
 }

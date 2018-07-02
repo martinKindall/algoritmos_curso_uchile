@@ -37,6 +37,7 @@ public class CartesianTree
 	{
 		CartesianTree nodoInsertado = this.insertarAbb(v, w);
 		nodoInsertado = nodoInsertado.rotar();
+		nodoInsertado.corregirAlturas();
 		return nodoInsertado;
 	}
 
@@ -157,5 +158,23 @@ public class CartesianTree
 	public double costoPromedio()
 	{
 		return this.costoTotal() / this.numNodos();
+	}
+
+	public void corregirAlturas()
+	{
+		if (padre == null)
+		{
+			altura = 1;
+		}
+		else
+		{
+			altura = padre.altura + 1;
+		}
+
+		if (izq != null)
+			izq.corregirAlturas();
+
+		if (der != null)
+			der.corregirAlturas();
 	}
 }
