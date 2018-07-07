@@ -60,20 +60,29 @@ public class Tarea4{
 	    {	
 	    	if (nEspacios == 2 || !scanner.hasNextLine())
 	    	{
-	    		nEspacios = 0;
+	    		parOrd = expresion.split(" ");
+		    	numX = Integer.parseInt(parOrd[0]);
+				numY = Double.parseDouble(parOrd[1]);
+
+				if (!scanner.hasNextLine())
+				{
+					tree = tree.insertar(numX, numY);
+				}
 
 	    		System.out.println(tree.imprimir());
 	    		System.out.println(tree.costoPromedio());
 
-	    		parOrd = expresion.split(" ");
-		    	numX = Integer.parseInt(parOrd[0]);
-				numY = Double.parseDouble(parOrd[1]);
-				tree = new CartesianTree(numX, numY);
+	    		if (!scanner.hasNextLine())
+				{
+					break;
+				}
 
-				if (!scanner.hasNextLine()) break;
+				tree = new CartesianTree(numX, numY);
 
 	    		System.out.println("---------- Test " + nTest++ + " ----------");
 				expresion = scanner.nextLine();
+	    		nEspacios = 0;
+
 	    		continue;
 	    	}
 
