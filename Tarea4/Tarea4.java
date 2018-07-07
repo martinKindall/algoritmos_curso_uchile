@@ -1,12 +1,14 @@
 import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 public class Tarea4{
 
-	public static void main(String[] args) 
+	public static void main(String[] args) throws FileNotFoundException
 	{
 		tests();
 
-		// prueba1();
+		parte1();
 		parte2();
 	}
 
@@ -37,11 +39,89 @@ public class Tarea4{
 		System.out.println(tree.imprimir());
 	}
 
+	public static void parte1() throws FileNotFoundException
+	{
+		File file = new File("ejemplos.txt");
+		Scanner scanner = new Scanner(file);
+	    String expresion = scanner.nextLine();
+
+	    String parOrd[] = expresion.split(" ");
+		int numX = Integer.parseInt(parOrd[0]);
+		double numY = Double.parseDouble(parOrd[1]);
+
+		CartesianTree tree = new CartesianTree(numX, numY);
+
+		int nEspacios = 0;
+		int nTest = 1;
+
+		System.out.println("---------- Test " + nTest++ + " ----------");
+		
+	    while(true)
+	    {	
+	    	if (nEspacios == 2 || !scanner.hasNextLine())
+	    	{
+	    		nEspacios = 0;
+
+	    		System.out.println(tree.imprimir());
+	    		System.out.println(tree.costoPromedio());
+
+	    		parOrd = expresion.split(" ");
+		    	numX = Integer.parseInt(parOrd[0]);
+				numY = Double.parseDouble(parOrd[1]);
+				tree = new CartesianTree(numX, numY);
+
+				if (!scanner.hasNextLine()) break;
+
+	    		System.out.println("---------- Test " + nTest++ + " ----------");
+				expresion = scanner.nextLine();
+	    		continue;
+	    	}
+
+	    	if (expresion.compareTo("") == 0)
+	    	{
+	    		nEspacios++;
+	    		expresion = scanner.nextLine();
+	    		continue;
+	    	}
+
+	    	if (expresion.compareTo("Solucion:") == 0)
+	    	{
+	    		nEspacios = 0;
+	    		expresion = scanner.nextLine();
+
+	    		if (expresion.compareTo(tree.imprimir()) == 0)
+	    			System.out.println("Paso el test de insercion");
+	    		else
+	    			System.out.println("Ocurrio un error en insercion..");
+
+	    		expresion = scanner.nextLine();
+	    		double costoProm = Double.parseDouble(expresion);
+
+	    		if (costoProm == tree.costoPromedio())
+	    			System.out.println("Paso el test de costo promedio");
+	    		else
+	    			System.out.println("Ocurrio un error en costo promedio..");
+
+	    		expresion = scanner.nextLine();
+	    		continue;
+	    	}
+
+	    	parOrd = expresion.split(" ");
+	    	numX = Integer.parseInt(parOrd[0]);
+			numY = Double.parseDouble(parOrd[1]);
+			tree = tree.insertar(numX, numY);
+
+			expresion = scanner.nextLine();
+	    }
+
+	    System.out.println("---------- Fin de Tests ----------");
+	}
+
 	public static void parte2()
 	{	
 		int expMin = 10;
 		int expMax = 16;
-		int nroRepeticiones = 1;
+		int nroRepeticiones = 10;
 
 		double promediosFinales[] = new double[expMax - expMin + 1];
 
