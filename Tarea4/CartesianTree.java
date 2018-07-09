@@ -2,7 +2,6 @@ public class CartesianTree
 {
 	int numX;
 	double numY;
-	int altura;
 
 	CartesianTree izq, der, padre;
 	
@@ -13,7 +12,6 @@ public class CartesianTree
 		izq = null;
 		der = null;
 		this.padre = null;
-		altura = 1;
 	}
 
 	public CartesianTree(int v, double w, CartesianTree padre) 
@@ -23,21 +21,12 @@ public class CartesianTree
 		izq = null;
 		der = null;
 		this.padre = padre;
-		if (padre != null)
-		{
-			altura = padre.altura + 1;
-		}
-		else
-		{
-			altura = 1;
-		}
 	}
 	
 	public CartesianTree insertar(int v, double w)
 	{
 		CartesianTree nodoInsertado = this.insertarAbb(v, w);
 		nodoInsertado = nodoInsertado.rotar();
-		nodoInsertado.corregirAlturas();
 		return nodoInsertado;
 	}
 
@@ -145,8 +134,9 @@ public class CartesianTree
 		return izqMsg + derMsgM + "(" + numX + "," + numY +")";		
 	}
 
-	public double costoTotal()
+	public double costoTotal(int alturaAnterior)
 	{
+		int alturaActual = alturaAnterior + 1;
 		double costoIzq, costoDer;
 
 		if (izq == null)
@@ -155,7 +145,7 @@ public class CartesianTree
 		} 
 		else
 		{
-			costoIzq = izq.costoTotal();
+			costoIzq = izq.costoTotal(alturaActual);
 		}
 		if (der == null)
 		{
@@ -163,10 +153,10 @@ public class CartesianTree
 		} 
 		else
 		{
-			costoDer = der.costoTotal();
+			costoDer = der.costoTotal(alturaActual);
 		}
 
-		return altura + costoIzq + costoDer;
+		return alturaActual + costoIzq + costoDer;
 	}
 
 	public int numNodos()
@@ -182,24 +172,6 @@ public class CartesianTree
 
 	public double costoPromedio()
 	{
-		return this.costoTotal() * 1.0 / this.numNodos();
-	}
-
-	public void corregirAlturas()
-	{
-		if (padre == null)
-		{
-			altura = 1;
-		}
-		else
-		{
-			altura = padre.altura + 1;
-		}
-
-		if (izq != null)
-			izq.corregirAlturas();
-
-		if (der != null)
-			der.corregirAlturas();
+		return this.costoTotal(0) * 1.0 / this.numNodos();
 	}
 }

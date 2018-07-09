@@ -168,7 +168,7 @@ public class Tarea4{
 		treeTest.insertarAbb(78, 15);
 
 		assert(treeTest.imprimir().compareTo(correcto1) == 0);
-		assert(treeTest.costoTotal() == 24);
+		assert(treeTest.costoTotal(0) == 24);
 		assert(treeTest.costoPromedio() == 3);
 
 		// test de rotaciones
