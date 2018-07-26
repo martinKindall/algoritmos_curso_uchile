@@ -8,6 +8,8 @@ public class Tarea5{
 
 	    int[] frecuencias = getFrecuenciasFromFile("ElCidC1.txt", "ISO-8859-1");
 	    ArbolBinario huffman = algoritmoHuffman(frecuencias);
+	    Pila freqOrdenadas = heapSort(frecuencias);
+
 	    System.out.println("Fin");
 	}
 
@@ -38,15 +40,7 @@ public class Tarea5{
 
 	public static ArbolBinario algoritmoHuffman(int[] frecuencias)
 	{
-		ColaPrior cola = new ColaPrior();
-
-		for (int idx=0; idx<frecuencias.length; idx++) 
-		{
-			if (frecuencias[idx] > 0)
-			{
-				cola.insertar(new ArbolBinario(idx, frecuencias[idx]));
-			}
-		}
+		ColaPrior cola = fromArrayToCola(frecuencias);
 
 		while(cola.getSize() > 1)
 		{
@@ -59,6 +53,36 @@ public class Tarea5{
 		}
 
 		return cola.extraer();
+	}
+
+	/**
+	 * [heapSort: ordena un arreglo de mayor a menor, omite los valores nulos o negativos]
+	 */
+	public static Pila heapSort(int[] arreglo)
+	{
+		ColaPrior cola = fromArrayToCola(arreglo);
+		Pila pila = new Pila();
+		while(cola.getSize() > 0)
+		{
+			pila.apilar(cola.extraer());
+		}
+
+		return pila;
+	}
+
+	public static ColaPrior fromArrayToCola(int[] array)
+	{
+		ColaPrior cola = new ColaPrior();
+
+		for (int idx=0; idx<array.length; idx++) 
+		{
+			if (array[idx] > 0)
+			{
+				cola.insertar(new ArbolBinario(idx, array[idx]));
+			}
+		}
+
+		return cola;
 	}
 
 	public static void tests()
