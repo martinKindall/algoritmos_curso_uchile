@@ -1,16 +1,16 @@
 public class ArbolBinario {
-	String val;
+	int car, freq;
 	ArbolBinario izq, der;
 	
-	public ArbolBinario(String v) {
-		val = v;
+	public ArbolBinario(int car, int freq) {
+		this.car = car;
+		this.freq = freq;
 		izq = null;
 		der = null;
 	}
 	
-	public ArbolBinario(String v, ArbolBinario i, ArbolBinario d) {
-		val = v;
-		izq = i;
-		der = d;
+	public static boolean esMayor(ArbolBinario arb1, ArbolBinario arb2)
+	{
+		return arb1.freq > arb2.freq;
 	}
 }
