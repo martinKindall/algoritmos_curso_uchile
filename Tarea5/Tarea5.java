@@ -9,6 +9,7 @@ public class Tarea5{
 	    int[] frecuencias = getFrecuenciasFromFile("ElCidC1.txt", "ISO-8859-1");
 	    ArbolBinario huffman = algoritmoHuffman(frecuencias);
 	    Pila freqOrdenadas = heapSort(frecuencias);
+	    mostrarCompresion(freqOrdenadas, huffman);
 
 	    System.out.println("Fin");
 	}
@@ -70,6 +71,11 @@ public class Tarea5{
 		return pila;
 	}
 
+	/**
+	 * [fromArrayToCola: transforma un array a una cola de prioridad de minimos, omite los valores nulos o negativos]
+	 * @param  array [description]
+	 * @return       [description]
+	 */
 	public static ColaPrior fromArrayToCola(int[] array)
 	{
 		ColaPrior cola = new ColaPrior();
@@ -83,6 +89,36 @@ public class Tarea5{
 		}
 
 		return cola;
+	}
+
+	public static String encode(ArbolBinario huffmanCode, String simbolo)
+	{
+		if (!huffmanCode.simbolos.contains(simbolo))
+		{
+			return "No Valido";
+		}
+
+		if (huffmanCode.izq != null && huffmanCode.izq.simbolos.contains(simbolo))
+		{
+			return "0" + encode(huffmanCode.izq, simbolo);
+		}
+
+		if (huffmanCode.der != null && huffmanCode.der.simbolos.contains(simbolo))
+		{
+			return "1" + encode(huffmanCode.der, simbolo);
+		}
+
+		return "";
+	}
+
+	public static void mostrarCompresion(Pila frecuencias, ArbolBinario huffmanCode)
+	{
+		while(!frecuencias.estaVacia())
+		{
+			ArbolBinario caracter = frecuencias.desapilar();
+			String codigo = encode(huffmanCode, caracter.simbolos);
+			System.out.println(caracter.simbolos + " " + codigo + " " + caracter.car);
+		}
 	}
 
 	public static void tests()
