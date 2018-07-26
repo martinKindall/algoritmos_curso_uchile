@@ -96,8 +96,5 @@ public class Tarea5{
 		ArbolBinario menor5 = colaP.extraer();
 		assert(ArbolBinario.esMayor(new ArbolBinario(0, 10), menor5));
 		assert(!ArbolBinario.esMayor(new ArbolBinario(0, 8), menor5));
-
-		int caracter = 162;
-		System.out.println((char)caracter);
 	}
 }
