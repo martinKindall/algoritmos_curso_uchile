@@ -7,9 +7,8 @@ public class Tarea5{
 		tests();
 
 	    int[] frecuencias = getFrecuenciasFromFile("ElCidC1.txt", "ISO-8859-1");
-	    ArbolBinario huffman = algoritmoHuffman(frecuencias);
-	    Pila freqOrdenadas = heapSort(frecuencias);
-	    mostrarCompresion(freqOrdenadas, huffman);
+	    Huffman textoComprimido = Huffman.comprimir(frecuencias);
+	    textoComprimido.mostrarCompresion();
 
 	    System.out.println("Fin");
 	}
@@ -37,88 +36,6 @@ public class Tarea5{
         }
 
         return frecuencias;
-	}
-
-	public static ArbolBinario algoritmoHuffman(int[] frecuencias)
-	{
-		ColaPrior cola = fromArrayToCola(frecuencias);
-
-		while(cola.getSize() > 1)
-		{
-			ArbolBinario menor1 = cola.extraer();
-			ArbolBinario menor2 = cola.extraer();
-
-			ArbolBinario nuevoAr = new ArbolBinario(0, menor1.freq + menor2.freq, menor1, menor2);
-
-			cola.insertar(nuevoAr);
-		}
-
-		return cola.extraer();
-	}
-
-	/**
-	 * [heapSort: ordena un arreglo de mayor a menor, omite los valores nulos o negativos]
-	 */
-	public static Pila heapSort(int[] arreglo)
-	{
-		ColaPrior cola = fromArrayToCola(arreglo);
-		Pila pila = new Pila();
-		while(cola.getSize() > 0)
-		{
-			pila.apilar(cola.extraer());
-		}
-
-		return pila;
-	}
-
-	/**
-	 * [fromArrayToCola: transforma un array a una cola de prioridad de minimos, omite los valores nulos o negativos]
-	 * @param  array [description]
-	 * @return       [description]
-	 */
-	public static ColaPrior fromArrayToCola(int[] array)
-	{
-		ColaPrior cola = new ColaPrior();
-
-		for (int idx=0; idx<array.length; idx++) 
-		{
-			if (array[idx] > 0)
-			{
-				cola.insertar(new ArbolBinario(idx, array[idx]));
-			}
-		}
-
-		return cola;
-	}
-
-	public static String encode(ArbolBinario huffmanCode, String simbolo)
-	{
-		if (!huffmanCode.simbolos.contains(simbolo))
-		{
-			return "No Valido";
-		}
-
-		if (huffmanCode.izq != null && huffmanCode.izq.simbolos.contains(simbolo))
-		{
-			return "0" + encode(huffmanCode.izq, simbolo);
-		}
-
-		if (huffmanCode.der != null && huffmanCode.der.simbolos.contains(simbolo))
-		{
-			return "1" + encode(huffmanCode.der, simbolo);
-		}
-
-		return "";
-	}
-
-	public static void mostrarCompresion(Pila frecuencias, ArbolBinario huffmanCode)
-	{
-		while(!frecuencias.estaVacia())
-		{
-			ArbolBinario caracter = frecuencias.desapilar();
-			String codigo = encode(huffmanCode, caracter.simbolos);
-			System.out.println(caracter.simbolos + " " + codigo + " " + caracter.car);
-		}
 	}
 
 	public static void tests()
