@@ -47,4 +47,9 @@ public class ColaPrior {
 
 		return menor;
 	}
+
+	public int getSize()
+	{
+		return size;
+	}
 }

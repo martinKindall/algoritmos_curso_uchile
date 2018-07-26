@@ -7,6 +7,8 @@ public class Tarea5{
 		tests();
 
 	    int[] frecuencias = getFrecuenciasFromFile("ElCidC1.txt", "ISO-8859-1");
+	    ArbolBinario huffman = algoritmoHuffman(frecuencias);
+	    System.out.println("Fin");
 	}
 
 	public static int[] getFrecuenciasFromFile(String textFile, String encoding) throws IOException
@@ -26,13 +28,37 @@ public class Tarea5{
             for (int idx=0; idx<line.length(); idx++) 
             {
             	char currChar = line.charAt(idx);
-            	// System.out.println((int)currChar);
             	frecuencias[(int)currChar]++;
            	}	
 
         }
 
         return frecuencias;
+	}
+
+	public static ArbolBinario algoritmoHuffman(int[] frecuencias)
+	{
+		ColaPrior cola = new ColaPrior();
+
+		for (int idx=0; idx<frecuencias.length; idx++) 
+		{
+			if (frecuencias[idx] > 0)
+			{
+				cola.insertar(new ArbolBinario(idx, frecuencias[idx]));
+			}
+		}
+
+		while(cola.getSize() > 1)
+		{
+			ArbolBinario menor1 = cola.extraer();
+			ArbolBinario menor2 = cola.extraer();
+
+			ArbolBinario nuevoAr = new ArbolBinario(0, menor1.freq + menor2.freq, menor1, menor2);
+
+			cola.insertar(nuevoAr);
+		}
+
+		return cola.extraer();
 	}
 
 	public static void tests()

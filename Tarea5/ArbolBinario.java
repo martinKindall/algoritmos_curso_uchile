@@ -8,6 +8,14 @@ public class ArbolBinario {
 		izq = null;
 		der = null;
 	}
+
+	public ArbolBinario(int car, int freq, ArbolBinario arb1, ArbolBinario arb2)
+	{
+		this.car = car;
+		this.freq = freq;
+		this.izq = arb1;
+		this.der = arb2;
+	}
 	
 	public static boolean esMayor(ArbolBinario arb1, ArbolBinario arb2)
 	{
