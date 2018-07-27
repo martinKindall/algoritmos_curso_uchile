@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.Arrays;
 
 public class Huffman{
@@ -22,17 +23,21 @@ public class Huffman{
 		return new Huffman(arbolHuffman, freqOrdenadas, caracteresTotales);
 	}
 
-	public void mostrarCompresion(boolean showSize)
+	public void mostrarCompresion(String output, boolean showSize) throws IOException
 	{
 		int fileSizeBits = 0;
+
+		PrintWriter writer = new PrintWriter(output, "UTF-8");
 
 		while(!this.freqOrdenadas.estaVacia())
 		{
 			ArbolBinario caracter = this.freqOrdenadas.desapilar();
 			String codigo = encode(this.arbolHuffman, caracter.simbolos);
 			fileSizeBits += codigo.length() * caracter.freq;
-			System.out.println("'" + caracter.simbolos + "' " + caracter.car + " " + codigo + " " + String.format("%.4f", caracter.freq*1.0/this.carTotal * 100) + "%" + " " + caracter.freq);
+			writer.println("'" + caracter.simbolos + "' " + caracter.car + " " + codigo + " " + String.format("%.4f", caracter.freq*1.0/this.carTotal * 100) + "%");
 		}
+
+		writer.close();
 
 		if (showSize)
 		{

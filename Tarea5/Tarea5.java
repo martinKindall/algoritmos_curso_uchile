@@ -6,17 +6,9 @@ public class Tarea5{
 	{
 		tests();
 
-	    int[] frecuencias = getFrecuenciasFromFile("ElCidC1.txt", "UTF-8");
+	    int[] frecuencias = getFrecuenciasFromFile(args[0], "UTF-8");
 	    Huffman textoComprimido = Huffman.comprimir(frecuencias);
-	    // textoComprimido.mostrarCompresion();
-
-	    frecuencias = getFrecuenciasFromFile("Hamlet.txt", "UTF-8");
-	    textoComprimido = Huffman.comprimir(frecuencias);
-	    // textoComprimido.mostrarCompresion();
-	    
-	    frecuencias = getFrecuenciasFromFile("Urfaust.txt", "UTF-8");
-	    textoComprimido = Huffman.comprimir(frecuencias);
-	    textoComprimido.mostrarCompresion(true);
+	    textoComprimido.mostrarCompresion(args[1], true);
 
 	    System.out.println("Fin");
 	}
@@ -42,7 +34,8 @@ public class Tarea5{
            	}	
 
         }
-
+        
+        reader.close();
         return frecuencias;
 	}
 
