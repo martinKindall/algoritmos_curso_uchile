@@ -6,7 +6,7 @@ public class Tarea5{
 	{
 		tests();
 
-	    int[] frecuencias = getFrecuenciasFromFile("ElCidC1.txt", "ISO-8859-1");
+	    int[] frecuencias = getFrecuenciasFromFile("ElCidC1.txt", "UTF-8");
 	    Huffman textoComprimido = Huffman.comprimir(frecuencias);
 	    // textoComprimido.mostrarCompresion();
 
@@ -14,7 +14,7 @@ public class Tarea5{
 	    textoComprimido = Huffman.comprimir(frecuencias);
 	    // textoComprimido.mostrarCompresion();
 	    
-	    frecuencias = getFrecuenciasFromFile("Urfaust.txt", "ISO-8859-1");
+	    frecuencias = getFrecuenciasFromFile("Urfaust.txt", "UTF-8");
 	    textoComprimido = Huffman.comprimir(frecuencias);
 	    textoComprimido.mostrarCompresion();
 

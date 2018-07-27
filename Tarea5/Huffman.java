@@ -28,7 +28,7 @@ public class Huffman{
 		{
 			ArbolBinario caracter = this.freqOrdenadas.desapilar();
 			String codigo = encode(this.arbolHuffman, caracter.simbolos);
-			System.out.println("'" + caracter.simbolos + "' " + caracter.car + " " + codigo + " " + String.format("%.4f", caracter.freq*1.0/this.carTotal * 100) + "%");
+			System.out.println("'" + caracter.simbolos + "' " + caracter.car + " " + codigo + " " + String.format("%.4f", caracter.freq*1.0/this.carTotal * 100) + "%" + " " + caracter.freq);
 		}
 	}
 
