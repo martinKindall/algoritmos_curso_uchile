@@ -22,13 +22,21 @@ public class Huffman{
 		return new Huffman(arbolHuffman, freqOrdenadas, caracteresTotales);
 	}
 
-	public void mostrarCompresion()
+	public void mostrarCompresion(boolean showSize)
 	{
+		int fileSizeBits = 0;
+
 		while(!this.freqOrdenadas.estaVacia())
 		{
 			ArbolBinario caracter = this.freqOrdenadas.desapilar();
 			String codigo = encode(this.arbolHuffman, caracter.simbolos);
+			fileSizeBits += codigo.length() * caracter.freq;
 			System.out.println("'" + caracter.simbolos + "' " + caracter.car + " " + codigo + " " + String.format("%.4f", caracter.freq*1.0/this.carTotal * 100) + "%" + " " + caracter.freq);
+		}
+
+		if (showSize)
+		{
+			System.out.println("El tamaño comprimido en bytes es: " + (int)(Math.ceil(fileSizeBits/8)));
 		}
 	}
 

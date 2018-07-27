@@ -16,7 +16,7 @@ public class Tarea5{
 	    
 	    frecuencias = getFrecuenciasFromFile("Urfaust.txt", "UTF-8");
 	    textoComprimido = Huffman.comprimir(frecuencias);
-	    textoComprimido.mostrarCompresion();
+	    textoComprimido.mostrarCompresion(true);
 
 	    System.out.println("Fin");
 	}
