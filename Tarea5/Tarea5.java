@@ -22,17 +22,12 @@ public class Tarea5{
 		    		encoding)
     	);
 
-        String line = null;
+        int symbol;
         int[] frecuencias = new int[300];
 
-        while ((line = reader.readLine()) != null) 
+        while ((symbol = reader.read()) != -1) 
         {
-            for (int idx=0; idx<line.length(); idx++) 
-            {
-            	char currChar = line.charAt(idx);
-            	frecuencias[(int)currChar]++;
-           	}	
-
+			frecuencias[symbol]++;
         }
         
         reader.close();

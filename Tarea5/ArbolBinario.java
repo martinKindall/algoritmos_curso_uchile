@@ -8,7 +8,18 @@ public class ArbolBinario {
 		this.freq = freq;
 		izq = null;
 		der = null;
-		simbolos = (char)car + "";
+		if (car == 10)
+		{
+			simbolos = "\\n";
+		}
+		else if (car == 13)
+		{
+			simbolos = "\\r";
+		}
+		else
+		{
+			simbolos = (char)car + "";
+		}
 	}
 
 	public ArbolBinario(int car, int freq, ArbolBinario arb1, ArbolBinario arb2)
