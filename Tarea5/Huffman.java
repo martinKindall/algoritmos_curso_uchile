@@ -34,7 +34,21 @@ public class Huffman{
 			ArbolBinario caracter = this.freqOrdenadas.desapilar();
 			String codigo = encode(this.arbolHuffman, caracter.simbolos);
 			fileSizeBits += codigo.length() * caracter.freq;
-			writer.println("'" + caracter.simbolos + "' " + caracter.car + " " + codigo + " " + String.format("%.4f", caracter.freq*1.0/this.carTotal * 100) + "%");
+			String outputSym;
+			if (caracter.simbolos == "»")
+			{
+				outputSym = "\\n";
+			}
+			else if(caracter.simbolos == "→")
+			{
+				outputSym = "\\r";
+			}
+			else
+			{
+				outputSym = caracter.simbolos;
+			}
+
+			writer.println("'" + outputSym + "' " + caracter.car + " " + codigo + " " + String.format("%.4f", caracter.freq*1.0/this.carTotal * 100) + "%");
 		}
 
 		writer.close();

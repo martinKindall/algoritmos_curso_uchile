@@ -10,11 +10,11 @@ public class ArbolBinario {
 		der = null;
 		if (car == 10)
 		{
-			simbolos = "\\n";
+			simbolos = "»";
 		}
 		else if (car == 13)
 		{
-			simbolos = "\\r";
+			simbolos = "→";
 		}
 		else
 		{
