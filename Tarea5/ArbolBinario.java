@@ -14,7 +14,7 @@ public class ArbolBinario {
 		}
 		else if (car == 13)
 		{
-			simbolos = "→";
+			simbolos = "«";
 		}
 		else
 		{

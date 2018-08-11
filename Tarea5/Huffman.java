@@ -39,7 +39,7 @@ public class Huffman{
 			{
 				outputSym = "\\n";
 			}
-			else if(caracter.simbolos == "→")
+			else if(caracter.simbolos == "«")
 			{
 				outputSym = "\\r";
 			}
